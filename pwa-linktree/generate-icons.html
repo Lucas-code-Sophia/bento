@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur d'icônes PWA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: white;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #2563eb;
+        }
+        .controls {
+            background: #16213e;
+            padding: 2rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+        }
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        input[type="text"], input[type="color"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        input[type="color"] {
+            height: 50px;
+            cursor: pointer;
+        }
+        .preview-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .preview-item {
+            text-align: center;
+        }
+        .preview-item canvas {
+            border-radius: 20%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .preview-item p {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+        button {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+        .instructions {
+            background: #16213e;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+        .instructions h3 {
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+        .instructions ol {
+            padding-left: 1.5rem;
+        }
+        .instructions li {
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Générateur d'icônes PWA</h1>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label for="emoji">Emoji ou Texte (1-2 caractères)</label>
+                <input type="text" id="emoji" value="🍽️" maxlength="4">
+            </div>
+            <div class="control-group">
+                <label for="bgColor">Couleur de fond</label>
+                <input type="color" id="bgColor" value="#2563eb">
+            </div>
+            <div class="control-group">
+                <label for="textColor">Couleur du texte (si texte)</label>
+                <input type="color" id="textColor" value="#ffffff">
+            </div>
+        </div>
+
+        <div class="preview-section" id="previews">
+            <!-- Canvases générés dynamiquement -->
+        </div>
+
+        <div class="buttons">
+            <button class="btn-primary" onclick="downloadAll()">📥 Télécharger toutes les icônes</button>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Instructions</h3>
+            <ol>
+                <li>Personnalise l'emoji/texte et les couleurs ci-dessus</li>
+                <li>Clique sur "Télécharger toutes les icônes"</li>
+                <li>Déplace les fichiers téléchargés dans <code>pwa-linktree/assets/icons/</code></li>
+                <li>Rafraîchis ta PWA pour voir les nouvelles icônes</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        const canvases = {};
+
+        function createCanvases() {
+            const container = document.getElementById('previews');
+            container.innerHTML = '';
+            
+            sizes.forEach(size => {
+                const div = document.createElement('div');
+                div.className = 'preview-item';
+                
+                const canvas = document.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                canvas.id = `canvas-${size}`;
+                canvases[size] = canvas;
+                
+                // Limiter l'affichage pour les grandes tailles
+                const displaySize = Math.min(size, 150);
+                canvas.style.width = displaySize + 'px';
+                canvas.style.height = displaySize + 'px';
+                
+                const p = document.createElement('p');
+                p.textContent = `${size}x${size}`;
+                
+                div.appendChild(canvas);
+                div.appendChild(p);
+                container.appendChild(div);
+            });
+        }
+
+        function drawIcon(canvas, emoji, bgColor, textColor) {
+            const ctx = canvas.getContext('2d');
+            const size = canvas.width;
+            
+            // Fond avec coins arrondis (pour maskable)
+            ctx.fillStyle = bgColor;
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Emoji ou texte
+            ctx.fillStyle = textColor;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // Taille de police adaptative
+            const fontSize = size * 0.5;
+            ctx.font = `${fontSize}px "Segoe UI Emoji", "Apple Color Emoji", sans-serif`;
+            
+            ctx.fillText(emoji, size/2, size/2 + (size * 0.05));
+        }
+
+        function updatePreviews() {
+            const emoji = document.getElementById('emoji').value || '🍽️';
+            const bgColor = document.getElementById('bgColor').value;
+            const textColor = document.getElementById('textColor').value;
+            
+            sizes.forEach(size => {
+                drawIcon(canvases[size], emoji, bgColor, textColor);
+            });
+        }
+
+        function downloadAll() {
+            sizes.forEach((size, index) => {
+                setTimeout(() => {
+                    const canvas = canvases[size];
+                    const link = document.createElement('a');
+                    link.download = `icon-${size}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                }, index * 200); // Petit délai pour éviter les problèmes de téléchargement
+            });
+        }
+
+        // Initialisation
+        createCanvases();
+        updatePreviews();
+
+        // Écouteurs d'événements
+        document.getElementById('emoji').addEventListener('input', updatePreviews);
+        document.getElementById('bgColor').addEventListener('input', updatePreviews);
+        document.getElementById('textColor').addEventListener('input', updatePreviews);
+    </script>
+</body>
+</html>
+

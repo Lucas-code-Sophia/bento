@@ -1,0 +1,19 @@
+{
+  "name": "pwa-linktree-restaurant",
+  "version": "1.0.0",
+  "description": "PWA Linktree pour restaurant - Page de liens moderne et responsive",
+  "scripts": {
+    "dev": "npx -y serve -p 3000",
+    "start": "npx -y serve -p 3000",
+    "preview": "npx -y serve -p 8080"
+  },
+  "keywords": [
+    "pwa",
+    "linktree",
+    "restaurant",
+    "landing-page"
+  ],
+  "author": "",
+  "license": "MIT"
+}
+
