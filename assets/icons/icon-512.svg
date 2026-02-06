@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <!-- Arrière-plan circulaire -->
+  <circle cx="256" cy="256" r="256" fill="#2563eb"/>
+  
+  <!-- Emoji fourchette/couteau stylisé -->
+  <g transform="translate(128, 100)" fill="white">
+    <!-- Fourchette -->
+    <path d="M50 0 L50 130 L65 130 L65 312 L95 312 L95 130 L110 130 L110 0 L95 0 L95 95 L87 95 L87 0 L73 0 L73 95 L65 95 L65 0 Z"/>
+    
+    <!-- Couteau -->
+    <path d="M150 0 C150 0 150 120 150 135 C150 165 175 180 205 180 L205 312 L235 312 L235 0 Z"/>
+  </g>
+</svg>
+
