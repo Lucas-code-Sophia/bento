@@ -71,6 +71,7 @@
             --secondary-color: #ffffff;
             --text-dark: #1a1a2e;
             --text-light: #ffffff;
+            --page-bg: #FFFDF6;
             --overlay-color: rgba(26, 26, 46, 0.7);
             --button-bg: rgba(255, 255, 255, 0.95);
             --button-hover-bg: var(--primary-color);
@@ -116,7 +117,7 @@
             width: 100%;
             height: 100%;
             z-index: -2;
-            background: #f5f0e8; /* Couleur crème comme ton fond */
+            background: var(--page-bg);
         }
 
         .background-image {
@@ -137,7 +138,16 @@
                 transform: translateY(0);
             }
             50% {
-                transform: translateY(-10%); /* Monte de 10% */
+                transform: translateY(-6%); /* Monte de 6% */
+            }
+        }
+
+        @keyframes floatBackgroundMobile {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-4%); /* Mouvement plus doux sur mobile */
             }
         }
 
@@ -374,13 +384,6 @@
                 padding: 1.5rem 1rem;
             }
 
-            .background-image {
-                background-size: contain;
-                background-position: center top;
-                background-repeat: no-repeat;
-                height: 100%;
-            }
-
             .container {
                 gap: 1.25rem;
             }
@@ -407,12 +410,23 @@
             }
 
             .link-button {
-                min-height: 52px;
-                padding: 0.875rem 1.25rem;
-                font-size: 0.95rem;
+                min-height: 46px;
+                padding: 0.75rem 1.1rem;
+                font-size: 0.9rem;
                 border-radius: 6px;
-                width: 92%;
+                width: 77%;
                 margin: 0 auto;
+            }
+
+            .link-icon {
+                font-size: 1.1rem;
+            }
+
+            .background-image {
+                background-size: 100% auto;
+                background-position: center top;
+                background-repeat: no-repeat;
+                animation: floatBackgroundMobile 20s ease-in-out infinite;
             }
         }
 
@@ -503,7 +517,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #f5f0e8; /* Même couleur crème que le fond */
+            background: var(--page-bg);
             display: flex;
             align-items: center;
             justify-content: center;
