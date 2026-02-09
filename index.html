@@ -9,21 +9,21 @@
     <!-- PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Mon Restaurant">
-    <link rel="apple-touch-icon" href="assets/icons/icon-192.svg">
+    <meta name="apple-mobile-web-app-title" content="SOPHIA">
+    <link rel="apple-touch-icon" href="assets/logo.png">
     
     <!-- Manifest -->
     <link rel="manifest" href="manifest.json">
     
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="assets/icons/icon-192.svg">
+    <link rel="icon" type="image/png" href="assets/logo.png">
     
     <!-- Google Fonts - Fallback élégant -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     
-    <title>Mon Restaurant</title>
+    <title>SOPHIA</title>
     
     <style>
         /* ============================================
@@ -604,6 +604,7 @@
            ============================================ */
         const config = {
             // 🏪 Informations du restaurant
+            restaurantName: "SOPHIA",
             tagline: "Restaurant d'inspiration méditerranéenne au Cap-Ferret",
             telephone: "Réouverture le 1er Avril 2026",
             
@@ -668,6 +669,7 @@
             renderLinks();
             renderSocials();
             renderFooter();
+            attachAnalyticsHandlers();
             
             // Appliquer l'image de fond si configurée
             applyBackgroundImage();
@@ -702,7 +704,8 @@
             const splashLogo = document.querySelector('.splash-logo');
             
             if (config.logoType === 'image') {
-                container.innerHTML = `<img src="${config.logo}" alt="Logo ${config.restaurantName}" />`;
+                const name = config.restaurantName || 'Restaurant';
+                container.innerHTML = `<img src="${config.logo}" alt="Logo ${name}" />`;
                 splashLogo.innerHTML = `<img src="${config.logo}" alt="" />`;
             } else if (config.logoType === 'emoji') {
                 container.innerHTML = `<span class="logo-emoji">${config.logo}</span>`;
@@ -742,6 +745,7 @@
                 <a href="${link.url}" 
                    class="link-button" 
                    style="animation-delay: ${index * 0.1}s"
+                   data-analytics-label="${link.label}"
                    ${link.isMap ? 'data-ismap="true"' : ''}
                    ${link.url.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''}>
                     <span class="link-icon">${link.icon}</span>
@@ -795,6 +799,7 @@
                            class="social-link" 
                            target="_blank" 
                            rel="noopener noreferrer"
+                           data-analytics-label="${icon.label}"
                            aria-label="Suivez-nous sur ${icon.label}">
                             ${icon.svg}
                         </a>
@@ -822,6 +827,46 @@
                 const bgElement = document.getElementById('bg-image');
                 bgElement.style.backgroundImage = `url('${config.backgroundImage}')`;
             }
+        }
+
+        /* ============================================
+           📊 TRACKING ANALYTICS (VERCEL)
+           ============================================ */
+        function trackEvent(name, data) {
+            if (typeof window.va === 'function') {
+                window.va('event', { name, data });
+            }
+        }
+
+        function attachAnalyticsHandlers() {
+            document.addEventListener('click', (event) => {
+                const linkButton = event.target.closest('a.link-button');
+                if (linkButton) {
+                    trackLinkClick(linkButton);
+                    return;
+                }
+
+                const socialLink = event.target.closest('a.social-link');
+                if (socialLink) {
+                    trackLinkClick(socialLink);
+                }
+            });
+        }
+
+        function trackLinkClick(link) {
+            const label = link.dataset.analyticsLabel ||
+                link.getAttribute('aria-label') ||
+                link.textContent.trim() ||
+                'unknown';
+            const isMap = link.dataset.ismap === 'true';
+            const url = isMap
+                ? (isAppleDevice() ? config.mapsLinks.apple : config.mapsLinks.google)
+                : (link.getAttribute('href') || '');
+
+            trackEvent('Link Click', {
+                label,
+                url
+            });
         }
 
         /* ============================================
