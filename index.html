@@ -333,6 +333,69 @@
             font-size: 1.25rem;
         }
 
+        .link-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.15rem;
+            text-align: center;
+        }
+
+        .link-label {
+            line-height: 1.2;
+        }
+
+        .link-subtext {
+            font-size: 0.78rem;
+            letter-spacing: 0.01em;
+            opacity: 0.85;
+            line-height: 1.1;
+        }
+
+        .link-button.event-highlight {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1f58dd 60%, #1a47b5 100%);
+            color: var(--secondary-color);
+            border-color: transparent;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.35);
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .link-button.event-highlight::before {
+            display: none;
+        }
+
+        .link-button.event-highlight .link-content {
+            align-items: center;
+            text-align: center;
+            flex: 0 1 auto;
+            padding-right: 0;
+        }
+
+        .link-button.event-highlight .link-label {
+            font-family: 'Canela', 'Space Mono', 'Courier New', monospace;
+            font-size: 1.08rem;
+            font-weight: 500;
+            line-height: 1.25;
+            letter-spacing: 0.01em;
+        }
+
+        .link-button.event-highlight .link-subtext {
+            font-family: 'Canela', 'Space Mono', 'Courier New', monospace;
+            font-size: 0.9rem;
+            opacity: 0.98;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .link-button.event-highlight:hover,
+        .link-button.event-highlight:focus {
+            background: linear-gradient(135deg, #1f58dd 0%, #1a47b5 100%);
+            box-shadow: 0 12px 34px rgba(26, 71, 181, 0.45);
+        }
+
         /* ============================================
            📱 RÉSEAUX SOCIAUX
            ============================================ */
@@ -645,6 +708,8 @@
            🔗 LIENS - MODIFIE ICI TES BOUTONS
            ============================================ */
         const links = [
+            // Remplace ce lien par ton reel Instagram
+            { label: "Tous les vendredis soirs : Paella maison à volonté", subLabel: "28 €", url: "https://www.instagram.com/sophia.capferret/reel/DW_55xRjPrY/", variant: "event" },
             { label: "Notre Menu", url: "https://drive.google.com/file/d/1WHjc8sDi5ZZA2bWQ8s8zsqdjfqH1lE0l/view?usp=sharing", icon: "🍽️" },
             { label: "Appeler pour réserver", url: "tel:+33564724988", icon: "📞" },
             { label: "Nous trouver", url: "#maps", icon: "📍", isMap: true },
@@ -743,13 +808,16 @@
             
             container.innerHTML = links.map((link, index) => `
                 <a href="${link.url}" 
-                   class="link-button" 
+                   class="link-button ${link.variant === 'event' ? 'event-highlight' : ''}" 
                    style="animation-delay: ${index * 0.1}s"
                    data-analytics-label="${link.label}"
                    ${link.isMap ? 'data-ismap="true"' : ''}
                    ${link.url.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''}>
-                    <span class="link-icon">${link.icon}</span>
-                    <span class="link-label">${link.label}</span>
+                    ${link.icon ? `<span class="link-icon">${link.icon}</span>` : ''}
+                    <span class="link-content">
+                        <span class="link-label">${link.label}</span>
+                        ${link.subLabel ? `<span class="link-subtext">${link.subLabel}</span>` : ''}
+                    </span>
                 </a>
             `).join('');
             
