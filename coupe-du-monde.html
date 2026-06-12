@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="description" content="Les matchs de Coupe du monde diffusés chez SOPHIA - Cap-Ferret">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SOPHIA - Coupe du monde">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <title>SOPHIA - Coupe du monde</title>
+
+    <style>
+        @font-face {
+            font-family: 'Canela';
+            src: url('assets/fonts/Canela-Light.woff2') format('woff2'),
+                 url('assets/fonts/Canela-Light.woff') format('woff');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Canela';
+            src: url('assets/fonts/Canela-Regular.woff2') format('woff2'),
+                 url('assets/fonts/Canela-Regular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #ffffff;
+            --text-dark: #1a1a2e;
+            --page-bg: #FFFDF6;
+            --line-color: rgba(37, 99, 235, 0.22);
+            --panel-bg: rgba(255, 255, 255, 0.9);
+            --shadow-medium: rgba(37, 99, 235, 0.18);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: 1.25rem;
+            color: var(--primary-color);
+            font-family: 'Space Mono', 'Courier New', monospace;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .background {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: var(--page-bg);
+        }
+
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            z-index: -1;
+            background-image: url('assets/bg.png');
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+            animation: floatBackground 20s ease-in-out infinite;
+        }
+
+        @keyframes floatBackground {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-6%);
+            }
+        }
+
+        .page-shell {
+            width: 100%;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 1rem 0 3rem;
+            animation: fadeInUp 0.7s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            min-height: 42px;
+            margin-bottom: 1.25rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.86rem;
+            font-weight: 700;
+        }
+
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .brand-logo {
+            width: 64px;
+            height: 64px;
+            border: 3px solid var(--secondary-color);
+            border-radius: 14px;
+            box-shadow: 0 8px 26px var(--shadow-medium);
+            object-fit: cover;
+            flex: 0 0 auto;
+        }
+
+        .eyebrow {
+            margin-bottom: 0.3rem;
+            font-size: 0.72rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            opacity: 0.78;
+        }
+
+        h1 {
+            color: var(--text-dark);
+            font-family: 'Canela', 'Space Mono', 'Courier New', monospace;
+            font-size: clamp(2rem, 8vw, 3.6rem);
+            font-weight: 400;
+            line-height: 0.96;
+            letter-spacing: 0;
+        }
+
+        .intro {
+            max-width: 34rem;
+            margin: 1rem 0 1.2rem;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            line-height: 1.55;
+        }
+
+        .reservation-panel {
+            display: grid;
+            gap: 0.75rem;
+            margin: 0 0 1.6rem;
+            padding: 0.95rem;
+            border: 2px solid var(--line-color);
+            border-radius: 8px;
+            background: var(--panel-bg);
+            color: var(--text-dark);
+            box-shadow: 0 10px 28px rgba(26, 26, 46, 0.08);
+        }
+
+        .reservation-title {
+            color: var(--primary-color);
+            font-size: 0.78rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .reservation-details {
+            display: grid;
+            gap: 0.35rem;
+            font-size: 0.86rem;
+            line-height: 1.45;
+        }
+
+        .reservation-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .reservation-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 38px;
+            padding: 0.45rem 0.75rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .reservation-link.primary {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+        }
+
+        .next-match {
+            display: grid;
+            gap: 0.85rem;
+            margin: 1.35rem 0 2rem;
+            padding: 1rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.96), rgba(17, 45, 122, 0.96));
+            color: var(--secondary-color);
+            box-shadow: 0 12px 32px rgba(37, 99, 235, 0.28);
+        }
+
+        .next-match h2,
+        .section-title {
+            font-size: 0.78rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .next-title {
+            font-family: 'Canela', 'Space Mono', 'Courier New', monospace;
+            font-size: clamp(1.65rem, 7vw, 2.8rem);
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: 0;
+        }
+
+        .next-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+            font-size: 0.85rem;
+            line-height: 1.35;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            min-height: 30px;
+            padding: 0.3rem 0.65rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.32);
+            color: inherit;
+            white-space: nowrap;
+        }
+
+        .section-title {
+            margin: 1.8rem 0 0.75rem;
+            color: var(--primary-color);
+        }
+
+        .match-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .match-card {
+            display: grid;
+            grid-template-columns: 4.25rem 1fr;
+            gap: 0.95rem;
+            padding: 0.9rem;
+            border: 2px solid var(--line-color);
+            border-radius: 8px;
+            background: var(--panel-bg);
+            color: var(--text-dark);
+            box-shadow: 0 10px 28px rgba(26, 26, 46, 0.08);
+        }
+
+        .match-card.is-live {
+            border-color: #e63946;
+            box-shadow: 0 12px 32px rgba(230, 57, 70, 0.18);
+        }
+
+        .date-badge {
+            display: grid;
+            place-items: center;
+            min-height: 4.25rem;
+            border-radius: 8px;
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            text-align: center;
+            line-height: 1;
+        }
+
+        .date-badge span {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            opacity: 0.82;
+        }
+
+        .date-badge strong {
+            font-size: 1.45rem;
+        }
+
+        .match-stage {
+            margin-bottom: 0.3rem;
+            color: var(--primary-color);
+            font-size: 0.72rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .match-title {
+            color: var(--text-dark);
+            font-family: 'Canela', 'Space Mono', 'Courier New', monospace;
+            font-size: 1.55rem;
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: 0;
+        }
+
+        .match-meta {
+            margin-top: 0.55rem;
+            font-size: 0.82rem;
+            line-height: 1.45;
+        }
+
+        .empty-state {
+            padding: 1rem;
+            border: 2px dashed var(--line-color);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.72);
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            line-height: 1.45;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        @media (max-width: 479px) {
+            body {
+                padding: 1rem;
+            }
+
+            .background-image {
+                background-size: 100% auto;
+                animation: floatBackground 20s ease-in-out infinite;
+            }
+
+            .brand-header {
+                align-items: flex-start;
+            }
+
+            .brand-logo {
+                width: 56px;
+                height: 56px;
+            }
+
+            .match-card {
+                grid-template-columns: 3.75rem 1fr;
+                gap: 0.75rem;
+            }
+
+            .date-badge {
+                min-height: 3.75rem;
+            }
+
+            .match-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="background-image"></div>
+
+    <main class="page-shell">
+        <a class="back-link" href="index.html">← Retour à Sophia</a>
+
+        <header>
+            <div class="brand-header">
+                <img class="brand-logo" src="assets/logo.png" alt="Logo SOPHIA">
+                <div>
+                    <p class="eyebrow">SOPHIA - Cap-Ferret</p>
+                    <h1>Coupe du monde</h1>
+                </div>
+            </div>
+            <p class="intro">
+                Les soirs des Bleus se regardent chez Sophia, avec les prochains rendez-vous de la France en Coupe du monde.
+            </p>
+        </header>
+
+        <section class="reservation-panel" aria-labelledby="reservation-title">
+            <h2 class="reservation-title" id="reservation-title">Réserver une place en tribune</h2>
+            <div class="reservation-details">
+                <p>67 boulevard de la Plage, 33970 Cap-Ferret</p>
+                <p>05 64 72 49 88</p>
+            </div>
+            <div class="reservation-actions">
+                <a class="reservation-link primary" href="tel:+33564724988">Appeler pour réserver</a>
+                <a class="reservation-link" href="https://www.google.com/maps/search/?api=1&query=67%20boulevard%20de%20la%20Plage%2033970%20Cap-Ferret" target="_blank" rel="noopener noreferrer">Voir l'adresse</a>
+            </div>
+        </section>
+
+        <section class="next-match" id="next-match" aria-live="polite"></section>
+
+        <section aria-labelledby="france-title">
+            <h2 class="section-title" id="france-title">Matchs de la France</h2>
+            <div class="match-list" id="france-matches"></div>
+        </section>
+
+        <section id="other-section" aria-labelledby="other-title" hidden>
+            <h2 class="section-title" id="other-title">Autres diffusions</h2>
+            <div class="match-list" id="other-matches"></div>
+        </section>
+    </main>
+
+    <script src="broadcast-matches.js"></script>
+    <script>
+        const PARIS_TIME_ZONE = 'Europe/Paris';
+        let scheduleRefreshTimer = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSchedule();
+            scheduleRefreshTimer = window.setInterval(renderSchedule, 60000);
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if (scheduleRefreshTimer) {
+                window.clearInterval(scheduleRefreshTimer);
+            }
+        });
+
+        function renderSchedule() {
+            const matchTools = window.SophiaMatches;
+            if (!matchTools) {
+                renderMissingDataState();
+                return;
+            }
+
+            const now = new Date();
+            const franceMatches = matchTools.getUpcomingMatches({ now, franceOnly: true });
+            const otherMatches = matchTools
+                .getUpcomingMatches({ now })
+                .filter((match) => !match.franceMatch);
+
+            renderNextMatch(matchTools.getNextFranceMatch(now), now);
+            renderMatchList('france-matches', franceMatches, now);
+            renderOtherMatches(otherMatches, now);
+        }
+
+        function renderNextMatch(match, now) {
+            const container = document.getElementById('next-match');
+
+            if (!match) {
+                container.innerHTML = `
+                    <h2>Prochain match</h2>
+                    <p class="next-title">À confirmer</p>
+                    <div class="next-details">
+                        <span class="pill">Calendrier à mettre à jour</span>
+                    </div>
+                `;
+                return;
+            }
+
+            const matchTools = window.SophiaMatches;
+            container.innerHTML = `
+                <h2>${escapeHtml(matchTools.getMatchStatus(match, now))}</h2>
+                <p class="next-title">${escapeHtml(matchTools.getMatchTitle(match))}</p>
+                <div class="next-details">
+                    <span class="pill">${escapeHtml(matchTools.formatDate(match))}</span>
+                    <span class="pill">${escapeHtml(matchTools.formatTime(match))}</span>
+                    <span class="pill">${escapeHtml(match.stage)}</span>
+                </div>
+            `;
+        }
+
+        function renderMatchList(elementId, matches, now) {
+            const container = document.getElementById(elementId);
+
+            if (!matches.length) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        Les prochaines diffusions seront affichées ici dès confirmation.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = matches
+                .map((match) => renderMatchCard(match, now))
+                .join('');
+        }
+
+        function renderOtherMatches(matches, now) {
+            const section = document.getElementById('other-section');
+
+            if (!matches.length) {
+                section.hidden = true;
+                return;
+            }
+
+            section.hidden = false;
+            renderMatchList('other-matches', matches, now);
+        }
+
+        function renderMatchCard(match, now) {
+            const matchTools = window.SophiaMatches;
+            const startDate = matchTools.getMatchStartDate(match);
+            const dateParts = getDateParts(startDate);
+            const status = matchTools.getMatchStatus(match, now);
+            const isLive = status === 'En cours';
+
+            return `
+                <article class="match-card ${isLive ? 'is-live' : ''}">
+                    <div class="date-badge" aria-hidden="true">
+                        <span>${escapeHtml(dateParts.weekday)}</span>
+                        <strong>${escapeHtml(dateParts.day)}</strong>
+                        <span>${escapeHtml(dateParts.month)}</span>
+                    </div>
+                    <div>
+                        <p class="match-stage">${escapeHtml(match.stage)} · Match ${escapeHtml(match.matchNumber)}</p>
+                        <h3 class="match-title">${escapeHtml(matchTools.getMatchTitle(match))}</h3>
+                        <p class="match-meta">
+                            ${escapeHtml(matchTools.formatTime(match))} · ${escapeHtml(status)}<br>
+                            ${escapeHtml(match.venue)}
+                        </p>
+                    </div>
+                </article>
+            `;
+        }
+
+        function getDateParts(date) {
+            const parts = new Intl.DateTimeFormat('fr-FR', {
+                weekday: 'short',
+                day: '2-digit',
+                month: 'short',
+                timeZone: PARIS_TIME_ZONE
+            }).formatToParts(date);
+
+            return {
+                weekday: getPart(parts, 'weekday').replace('.', ''),
+                day: getPart(parts, 'day'),
+                month: getPart(parts, 'month').replace('.', '')
+            };
+        }
+
+        function getPart(parts, type) {
+            const part = parts.find((item) => item.type === type);
+            return part ? part.value : '';
+        }
+
+        function renderMissingDataState() {
+            document.getElementById('next-match').innerHTML = `
+                <h2>Calendrier indisponible</h2>
+                <p class="next-title">Reviens bientôt</p>
+            `;
+            document.getElementById('france-matches').innerHTML = `
+                <div class="empty-state">Le fichier des matchs n'a pas été chargé.</div>
+            `;
+        }
+
+        function escapeHtml(value) {
+            return String(value || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>
