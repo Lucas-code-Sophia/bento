@@ -12,14 +12,17 @@
    ============================================ */
 
 // Nom du cache - INCRÉMENTE LE NUMÉRO POUR FORCER UNE MISE À JOUR
-const CACHE_NAME = 'restaurant-linktree-v3';
+const CACHE_NAME = 'restaurant-linktree-v13';
 
 // Fichiers à mettre en cache pour le mode offline
 const URLS_TO_CACHE = [
     './',
     './index.html',
     './coupe-du-monde.html',
+    './admin-tribunes.html',
     './broadcast-matches.js',
+    './supabase-config.js',
+    './tribune-reservations.js',
     './manifest.json',
     './assets/bg.png',
     './assets/logo.png',

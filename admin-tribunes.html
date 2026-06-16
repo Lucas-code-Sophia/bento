@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="description" content="Administration des réservations tribunes SOPHIA">
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <title>SOPHIA - Admin tribunes</title>
+
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #ffffff;
+            --text-dark: #1a1a2e;
+            --page-bg: #FFFDF6;
+            --panel-bg: rgba(255, 255, 255, 0.92);
+            --line-color: rgba(37, 99, 235, 0.22);
+            --danger-color: #d62828;
+            --success-color: #1f8a4c;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: 1.25rem;
+            color: var(--text-dark);
+            font-family: 'Space Mono', 'Courier New', monospace;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .background {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: var(--page-bg);
+        }
+
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            z-index: -1;
+            background-image: url('assets/bg.png');
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+            animation: floatBackground 20s ease-in-out infinite;
+        }
+
+        @keyframes floatBackground {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6%); }
+        }
+
+        .page-shell {
+            width: 100%;
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 1rem 0 3rem;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .back-link,
+        .admin-note {
+            color: var(--primary-color);
+            text-decoration: none;
+            font: inherit;
+            font-size: 0.86rem;
+            font-weight: 700;
+            border: 0;
+            background: transparent;
+        }
+
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .brand-logo {
+            width: 64px;
+            height: 64px;
+            border: 3px solid var(--secondary-color);
+            border-radius: 14px;
+            box-shadow: 0 8px 26px rgba(37, 99, 235, 0.18);
+            object-fit: cover;
+            flex: 0 0 auto;
+        }
+
+        .eyebrow {
+            margin-bottom: 0.3rem;
+            color: var(--primary-color);
+            font-size: 0.72rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        h1 {
+            font-size: clamp(1.9rem, 7vw, 3.2rem);
+            line-height: 0.98;
+            letter-spacing: 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 1rem;
+        }
+
+        .panel-full {
+            grid-column: 1 / -1;
+        }
+
+        .panel {
+            border: 2px solid var(--line-color);
+            border-radius: 8px;
+            background: var(--panel-bg);
+            box-shadow: 0 10px 28px rgba(26, 26, 46, 0.08);
+            padding: 1rem;
+        }
+
+        .panel h2 {
+            margin-bottom: 0.85rem;
+            color: var(--primary-color);
+            font-size: 0.82rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .two-columns {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.8rem;
+        }
+
+        label {
+            display: grid;
+            gap: 0.35rem;
+            font-size: 0.78rem;
+            line-height: 1.3;
+            color: rgba(26, 26, 46, 0.78);
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            min-height: 42px;
+            border: 2px solid rgba(37, 99, 235, 0.2);
+            border-radius: 8px;
+            padding: 0.55rem 0.65rem;
+            color: var(--text-dark);
+            background: rgba(255, 255, 255, 0.9);
+            font: inherit;
+            font-size: 0.9rem;
+        }
+
+        textarea {
+            min-height: 86px;
+            resize: vertical;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 0.55rem 0.85rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            font: inherit;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .button.secondary {
+            background: transparent;
+            color: var(--primary-color);
+        }
+
+        .button.danger {
+            border-color: var(--danger-color);
+            background: var(--danger-color);
+        }
+
+        .status-line {
+            min-height: 1.4rem;
+            margin-top: 0.75rem;
+            color: var(--primary-color);
+            font-size: 0.82rem;
+            line-height: 1.35;
+        }
+
+        .status-line.error {
+            color: var(--danger-color);
+        }
+
+        .selected-place-card {
+            display: grid;
+            gap: 0.25rem;
+            margin-top: 0.8rem;
+            padding: 0.75rem;
+            border: 2px solid rgba(37, 99, 235, 0.18);
+            border-radius: 8px;
+            background: rgba(37, 99, 235, 0.06);
+            color: var(--primary-color);
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .selected-place-card strong {
+            color: var(--text-dark);
+            font-size: 1rem;
+        }
+
+        .admin-plan {
+            margin-top: 0.85rem;
+            overflow-x: auto;
+            padding: 0.85rem;
+            border: 2px solid rgba(37, 99, 235, 0.14);
+            border-radius: 10px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(226, 239, 252, 0.82));
+        }
+
+        .admin-plan-layout {
+            display: grid;
+            grid-template-columns: 120px minmax(520px, 1fr) 120px;
+            gap: 0.85rem;
+            min-width: 780px;
+            align-items: center;
+        }
+
+        .admin-plan-main {
+            display: grid;
+            border: 3px solid #12325f;
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .admin-plan-row {
+            display: grid;
+            gap: 0.75rem;
+            padding: 0.9rem;
+            border-bottom: 2px solid #12325f;
+        }
+
+        .admin-plan-row:last-child {
+            border-bottom: 0;
+        }
+
+        .admin-plan-title {
+            justify-self: center;
+            padding: 0.32rem 0.85rem;
+            border: 2px solid #12325f;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.96);
+            color: #12325f;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .admin-plan-seats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.65rem;
+        }
+
+        .admin-plan-side {
+            display: grid;
+            gap: 0.85rem;
+        }
+
+        .seat-button {
+            display: grid;
+            place-items: center;
+            gap: 0.28rem;
+            min-height: 86px;
+            padding: 0.55rem;
+            border: 2px solid #12325f;
+            border-radius: 9px;
+            background: linear-gradient(145deg, #f8fbff, #dbeaf7);
+            color: #12325f;
+            font: inherit;
+            cursor: pointer;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+        }
+
+        .seat-button.side-low {
+            border-radius: 24px;
+        }
+
+        .seat-button:hover:not(:disabled),
+        .seat-button.is-selected {
+            border-color: var(--primary-color);
+            background: rgba(37, 99, 235, 0.1);
+            outline: 3px solid rgba(37, 99, 235, 0.18);
+        }
+
+        .seat-button.is-reserved {
+            border-color: var(--danger-color);
+            background: rgba(214, 40, 40, 0.12);
+            color: var(--danger-color);
+            cursor: not-allowed;
+        }
+
+        .seat-code {
+            display: inline-grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            background: #12325f;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .seat-status {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            min-height: 30px;
+            padding: 0.3rem 0.65rem;
+            border-radius: 999px;
+            background: rgba(37, 99, 235, 0.08);
+            color: var(--primary-color);
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .reservation-list {
+            display: grid;
+            gap: 0.65rem;
+        }
+
+        .reservation-item {
+            display: grid;
+            gap: 0.55rem;
+            padding: 0.8rem;
+            border: 2px solid rgba(26, 26, 46, 0.08);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.72);
+        }
+
+        .reservation-item.cancelled {
+            opacity: 0.58;
+        }
+
+        .reservation-main {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .reservation-place {
+            color: var(--primary-color);
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        .reservation-meta {
+            font-size: 0.78rem;
+            line-height: 1.4;
+            opacity: 0.82;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            min-height: 26px;
+            padding: 0.25rem 0.55rem;
+            border-radius: 999px;
+            background: var(--success-color);
+            color: var(--secondary-color);
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge.cancelled {
+            background: rgba(26, 26, 46, 0.38);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @media (min-width: 720px) {
+            .grid {
+                grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+                align-items: start;
+            }
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 1rem;
+            }
+
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-note {
+                display: none;
+            }
+
+            .brand-header {
+                align-items: flex-start;
+            }
+        }
+    </style>
+
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="background-image"></div>
+
+    <main class="page-shell">
+        <div class="topbar">
+            <a class="back-link" href="coupe-du-monde.html">← Coupe du monde</a>
+            <span class="admin-note">Lien admin caché</span>
+        </div>
+
+        <header class="brand-header">
+            <img class="brand-logo" src="assets/logo.png" alt="Logo SOPHIA">
+            <div>
+                <p class="eyebrow">Admin privé</p>
+                <h1>Réservations tribunes</h1>
+            </div>
+        </header>
+
+        <div class="grid" id="admin-content">
+            <section class="panel panel-full">
+                <h2>Choisir le match et la place</h2>
+                <label>
+                    Match
+                    <select id="match-select" required></select>
+                </label>
+                <div class="admin-plan" id="admin-plan"></div>
+                <div class="selected-place-card" id="selected-place-card">
+                    <span>Places sélectionnées</span>
+                    <strong>Clique sur une ou plusieurs places libres du plan</strong>
+                </div>
+            </section>
+
+            <section class="panel">
+                <h2>Créer une réservation</h2>
+                <form class="form-grid" id="reservation-form">
+                    <input id="place-code" type="hidden" required>
+                    <label>
+                        Nom de la réservation
+                        <input id="customer-name" type="text" autocomplete="off" required>
+                    </label>
+                    <div class="two-columns">
+                        <label>
+                            Téléphone (optionnel)
+                            <input id="customer-phone" type="tel" autocomplete="tel">
+                        </label>
+                        <label>
+                            Personnes
+                            <input id="party-size" type="number" min="1" step="1" value="1" required>
+                        </label>
+                    </div>
+                    <label>
+                        Note
+                        <textarea id="notes"></textarea>
+                    </label>
+                    <button class="button" type="submit">Ajouter la réservation</button>
+                    <p class="status-line" id="reservation-status"></p>
+                </form>
+            </section>
+
+            <section class="panel">
+                <h2>Récap du match</h2>
+                <div class="summary" id="summary"></div>
+                <div class="reservation-list" id="reservation-list"></div>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="tribune-reservations.js"></script>
+    <script src="broadcast-matches.js"></script>
+    <script>
+        const reservationForm = document.getElementById('reservation-form');
+        const reservationStatus = document.getElementById('reservation-status');
+        const matchSelect = document.getElementById('match-select');
+        const placeCodeInput = document.getElementById('place-code');
+        const adminPlan = document.getElementById('admin-plan');
+        const selectedPlaceCard = document.getElementById('selected-place-card');
+        const reservationList = document.getElementById('reservation-list');
+        const summary = document.getElementById('summary');
+        const partySizeInput = document.getElementById('party-size');
+        let currentReservations = [];
+        let selectedPlaceCodes = new Set();
+
+        const planRows = [
+            { title: 'Tribune présidentielle', places: ['P1', 'P2', 'P3', 'P4'] },
+            { title: 'Tribune VIP', places: ['V1', 'V2', 'V3', 'V4'] },
+            { title: 'Tribune catégorie 1', places: ['C1', 'C2', 'C3', 'C4'] }
+        ];
+
+        document.addEventListener('DOMContentLoaded', initializeAdmin);
+        reservationForm.addEventListener('submit', handleCreateReservation);
+        matchSelect.addEventListener('change', handleMatchChange);
+        adminPlan.addEventListener('click', handlePlanClick);
+        reservationList.addEventListener('click', handleReservationAction);
+        partySizeInput.addEventListener('input', renderSelectedPlaces);
+
+        async function initializeAdmin() {
+            renderMatchOptions();
+            await loadReservations();
+        }
+
+        function renderMatchOptions() {
+            const matchTools = window.SophiaMatches;
+            const matches = (window.SophiaBroadcastMatches || []).filter((match) => match.broadcast);
+            const nextMatch = matchTools ? matchTools.getNextFranceMatch() : null;
+
+            matchSelect.innerHTML = matches.map((match) => `
+                <option value="${escapeHtml(match.id)}" ${nextMatch && nextMatch.id === match.id ? 'selected' : ''}>
+                    ${escapeHtml(matchTools ? matchTools.getMatchTitle(match) : `${match.homeTeam} - ${match.awayTeam}`)} · ${escapeHtml(matchTools ? matchTools.formatCompactDateTime(match) : match.startAt)}
+                </option>
+            `).join('');
+        }
+
+        async function handleMatchChange() {
+            clearSelectedPlace();
+            await loadReservations();
+        }
+
+        async function loadReservations() {
+            const matchId = matchSelect.value;
+
+            if (!matchId) {
+                return;
+            }
+
+            reservationList.innerHTML = '<p class="status-line">Chargement...</p>';
+
+            try {
+                currentReservations = await window.SophiaTribuneReservations.fetchReservationsForMatch(matchId);
+                renderAdminPlan();
+                renderSummary();
+                renderReservationList();
+            } catch (error) {
+                reservationList.innerHTML = '<p class="status-line error">Impossible de charger les réservations.</p>';
+                adminPlan.innerHTML = '<p class="status-line error">Impossible de charger le plan.</p>';
+                console.error(error);
+            }
+        }
+
+        function renderAdminPlan() {
+            const confirmedCodes = new Set(
+                currentReservations
+                    .filter((reservation) => reservation.status === 'confirmed')
+                    .flatMap((reservation) => window.SophiaTribuneReservations.getReservationPlaceCodes(reservation))
+            );
+
+            const selectedStillAvailable = [...selectedPlaceCodes].filter((code) => !confirmedCodes.has(code));
+
+            if (selectedStillAvailable.length !== selectedPlaceCodes.size) {
+                selectedPlaceCodes = new Set(selectedStillAvailable);
+                renderSelectedPlaces();
+            }
+
+            adminPlan.innerHTML = `
+                <div class="admin-plan-layout">
+                    <div class="admin-plan-side">
+                        ${renderSeatButton('TH1', confirmedCodes, 'side')}
+                        ${renderSeatButton('TB1', confirmedCodes, 'side-low')}
+                    </div>
+                    <div class="admin-plan-main">
+                        ${planRows.map((row) => `
+                            <div class="admin-plan-row">
+                                <div class="admin-plan-title">${escapeHtml(row.title)}</div>
+                                <div class="admin-plan-seats">
+                                    ${row.places.map((code) => renderSeatButton(code, confirmedCodes)).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="admin-plan-side">
+                        ${renderSeatButton('TH2', confirmedCodes, 'side')}
+                        ${renderSeatButton('TB2', confirmedCodes, 'side-low')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSeatButton(code, confirmedCodes, extraClass) {
+            const isReserved = confirmedCodes.has(code);
+            const isSelected = selectedPlaceCodes.has(code);
+            const placeLabel = window.SophiaTribuneReservations.getPlaceLabel(code);
+
+            return `
+                <button
+                    class="seat-button ${extraClass || ''} ${isReserved ? 'is-reserved' : ''} ${isSelected ? 'is-selected' : ''}"
+                    type="button"
+                    data-place-code="${escapeHtml(code)}"
+                    ${isReserved ? 'disabled' : ''}
+                    aria-pressed="${isSelected ? 'true' : 'false'}"
+                >
+                    <span class="seat-code">${escapeHtml(code)}</span>
+                    <span>${escapeHtml(placeLabel.replace(` ${code}`, ''))}</span>
+                    <span class="seat-status">${isReserved ? 'Réservé' : isSelected ? 'Sélectionné' : 'Libre'}</span>
+                </button>
+            `;
+        }
+
+        function handlePlanClick(event) {
+            const button = event.target.closest('[data-place-code]');
+
+            if (!button || button.disabled) {
+                return;
+            }
+
+            selectPlace(button.dataset.placeCode);
+        }
+
+        function selectPlace(code) {
+            if (selectedPlaceCodes.has(code)) {
+                selectedPlaceCodes.delete(code);
+            } else {
+                selectedPlaceCodes.add(code);
+            }
+
+            renderSelectedPlaces();
+            setStatus(reservationStatus, '');
+            renderAdminPlan();
+        }
+
+        function clearSelectedPlace() {
+            selectedPlaceCodes.clear();
+            renderSelectedPlaces();
+        }
+
+        function renderSelectedPlaces() {
+            const labels = [...selectedPlaceCodes].map((code) => window.SophiaTribuneReservations.getPlaceLabel(code));
+            const partySize = Number(partySizeInput.value || 1);
+            placeCodeInput.value = '';
+
+            if (!labels.length) {
+                selectedPlaceCard.innerHTML = `
+                    <span>Places sélectionnées</span>
+                    <strong>Clique sur une ou plusieurs places libres du plan</strong>
+                `;
+                return;
+            }
+
+            placeCodeInput.value = [...selectedPlaceCodes].join(',');
+            selectedPlaceCard.innerHTML = `
+                <span>${labels.length} place${labels.length > 1 ? 's' : ''} sélectionnée${labels.length > 1 ? 's' : ''} pour ${escapeHtml(String(partySize))} pers.</span>
+                <strong>${escapeHtml(labels.join(' · '))}</strong>
+            `;
+        }
+
+        function renderSummary() {
+            const activeCodes = new Set(
+                currentReservations
+                    .filter((reservation) => reservation.status === 'confirmed')
+                    .flatMap((reservation) => window.SophiaTribuneReservations.getReservationPlaceCodes(reservation))
+            );
+            const activeCount = activeCodes.size;
+            const totalPlaces = window.SophiaTribuneReservations.places.length;
+            const availableCount = totalPlaces - activeCount;
+
+            summary.innerHTML = `
+                <span class="pill">${activeCount} réservées</span>
+                <span class="pill">${availableCount} libres</span>
+                <span class="pill">${totalPlaces} places total</span>
+            `;
+        }
+
+        function renderReservationList() {
+            if (!currentReservations.length) {
+                reservationList.innerHTML = '<p class="status-line">Aucune réservation pour ce match.</p>';
+                return;
+            }
+
+            reservationList.innerHTML = currentReservations.map((reservation) => {
+                const isCancelled = reservation.status !== 'confirmed';
+                const placeLabels = window.SophiaTribuneReservations.getReservationPlaceLabels(reservation);
+                return `
+                    <article class="reservation-item ${isCancelled ? 'cancelled' : ''}">
+                        <div class="reservation-main">
+                            <div>
+                                <p class="reservation-place">${escapeHtml(placeLabels.join(' · '))}</p>
+                                <p><strong>${escapeHtml(reservation.customer_name)}</strong> · ${escapeHtml(String(reservation.party_size || 1))} pers.</p>
+                                <p class="reservation-meta">
+                                    ${reservation.customer_phone ? `${escapeHtml(reservation.customer_phone)}<br>` : ''}
+                                    ${reservation.notes ? escapeHtml(reservation.notes) : ''}
+                                </p>
+                            </div>
+                            <span class="badge ${isCancelled ? 'cancelled' : ''}">${escapeHtml(isCancelled ? reservation.status : 'confirmée')}</span>
+                        </div>
+                        ${isCancelled ? '' : `<button class="button danger" type="button" data-cancel-id="${escapeHtml(reservation.id)}">Annuler</button>`}
+                    </article>
+                `;
+            }).join('');
+        }
+
+        async function handleCreateReservation(event) {
+            event.preventDefault();
+
+            const selectedCodes = [...selectedPlaceCodes];
+
+            if (!selectedCodes.length) {
+                setStatus(reservationStatus, 'Clique d’abord sur une ou plusieurs places libres dans le plan.', true);
+                return;
+            }
+
+            setStatus(reservationStatus, 'Ajout en cours...');
+
+            try {
+                const notes = document.getElementById('notes').value.trim();
+                const partySize = Number(partySizeInput.value || 1);
+                await window.SophiaTribuneReservations.createReservation({
+                    match_id: matchSelect.value,
+                    place_codes: selectedCodes,
+                    customer_name: document.getElementById('customer-name').value.trim(),
+                    customer_phone: document.getElementById('customer-phone').value.trim(),
+                    party_size: partySize,
+                    notes
+                });
+
+                reservationForm.reset();
+                partySizeInput.value = '1';
+                clearSelectedPlace();
+                setStatus(reservationStatus, 'Réservation ajoutée.');
+                await loadReservations();
+            } catch (error) {
+                const message = String(error && error.message ? error.message : '');
+                const isConflict = message.includes('duplicate') || message.includes('tribune_reservations_active_place_unique');
+                setStatus(reservationStatus, isConflict ? 'Une des places est déjà réservée pour ce match.' : 'Impossible d’ajouter la réservation.', true);
+                console.error(error);
+            }
+        }
+
+        async function handleReservationAction(event) {
+            const button = event.target.closest('[data-cancel-id]');
+
+            if (!button || !confirm('Annuler cette réservation ?')) {
+                return;
+            }
+
+            try {
+                await window.SophiaTribuneReservations.cancelReservation(button.dataset.cancelId);
+                await loadReservations();
+            } catch (error) {
+                const message = error && error.message ? `\n\n${error.message}` : '';
+                alert(`Impossible d’annuler la réservation.${message}`);
+                console.error(error);
+            }
+        }
+
+        function setStatus(element, message, isError) {
+            element.textContent = message;
+            element.classList.toggle('error', Boolean(isError));
+        }
+
+        function escapeHtml(value) {
+            return String(value || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>
