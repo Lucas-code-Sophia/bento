@@ -41,6 +41,19 @@
             matchNumber: 61,
             broadcast: true,
             franceMatch: true
+        },
+        {
+            id: 'france-sweden-2026-06-30',
+            competition: 'Coupe du monde 2026',
+            stage: '16e de finale',
+            homeTeam: 'France',
+            awayTeam: 'Suède',
+            startAt: '2026-06-30T21:00:00Z',
+            endAt: '2026-07-01T00:00:00Z',
+            venue: 'MetLife Stadium, New York/New Jersey',
+            matchNumber: 77,
+            broadcast: true,
+            franceMatch: true
         }
         // Ajoute ici d'autres diffusions plus tard avec broadcast: true.
     ];
