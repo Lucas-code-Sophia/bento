@@ -12,20 +12,27 @@
    ============================================ */
 
 // Nom du cache - INCRÉMENTE LE NUMÉRO POUR FORCER UNE MISE À JOUR
-const CACHE_NAME = 'restaurant-linktree-v1';
+const CACHE_NAME = 'restaurant-linktree-v14';
 
 // Fichiers à mettre en cache pour le mode offline
 const URLS_TO_CACHE = [
-    '/',
-    '/index.html',
-    '/manifest.json',
-    '/assets/icons/icon-192.svg',
-    '/assets/icons/icon-512.svg',
+    './',
+    './index.html',
+    './coupe-du-monde.html',
+    './admin-tribunes.html',
+    './broadcast-matches.js',
+    './supabase-config.js',
+    './tribune-reservations.js',
+    './manifest.json',
+    './assets/bg.png',
+    './assets/logo.png',
+    './assets/icons/icon-192.svg',
+    './assets/icons/icon-512.svg',
 ];
 
 // URLs externes à mettre en cache (Google Fonts)
 const EXTERNAL_URLS = [
-    'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap',
+    'https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap',
 ];
 
 /* ============================================
@@ -121,7 +128,7 @@ self.addEventListener('fetch', (event) => {
                         // Si la ressource n'est pas en cache, retourne la page principale
                         // (utile pour les navigations SPA)
                         if (event.request.mode === 'navigate') {
-                            return caches.match('/index.html');
+                            return caches.match('./index.html');
                         }
                         
                         // Sinon, retourne une erreur 404
