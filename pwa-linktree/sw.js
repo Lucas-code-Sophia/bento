@@ -12,7 +12,7 @@
    ============================================ */
 
 // Nom du cache - INCRÉMENTE LE NUMÉRO POUR FORCER UNE MISE À JOUR
-const CACHE_NAME = 'restaurant-linktree-v14';
+const CACHE_NAME = 'restaurant-linktree-v17';
 
 // Fichiers à mettre en cache pour le mode offline
 const URLS_TO_CACHE = [

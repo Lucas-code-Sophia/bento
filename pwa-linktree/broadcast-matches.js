@@ -58,6 +58,57 @@
         // Ajoute ici d'autres diffusions plus tard avec broadcast: true.
     ];
 
+    const franceProjectionMatches = [
+        {
+            id: 'france-projection-paraguay-2026-07-04',
+            competition: 'Coupe du monde 2026',
+            stage: '8e de finale',
+            homeTeam: 'France',
+            awayTeam: 'Paraguay',
+            startAt: '2026-07-04T21:00:00Z',
+            endAt: '2026-07-05T00:00:00Z',
+            venue: 'Lincoln Financial Field, Philadelphie',
+            matchNumber: 89,
+            projectionNote: 'Si victoire contre la Suède'
+        },
+        {
+            id: 'france-projection-quarter-2026-07-09',
+            competition: 'Coupe du monde 2026',
+            stage: 'Quart de finale',
+            homeTeam: 'France',
+            awayTeam: 'Canada ou Maroc',
+            startAt: '2026-07-09T20:00:00Z',
+            endAt: '2026-07-09T23:00:00Z',
+            venue: 'Gillette Stadium, Boston',
+            matchNumber: 97,
+            projectionNote: 'Si victoire en 8e'
+        },
+        {
+            id: 'france-projection-semi-2026-07-14',
+            competition: 'Coupe du monde 2026',
+            stage: 'Demi-finale',
+            homeTeam: 'France',
+            awayTeam: 'Adversaire à confirmer',
+            startAt: '2026-07-14T19:00:00Z',
+            endAt: '2026-07-14T22:00:00Z',
+            venue: 'AT&T Stadium, Dallas',
+            matchNumber: 101,
+            projectionNote: 'Si victoire en quart'
+        },
+        {
+            id: 'france-projection-final-2026-07-19',
+            competition: 'Coupe du monde 2026',
+            stage: 'Finale',
+            homeTeam: 'France',
+            awayTeam: 'Adversaire à confirmer',
+            startAt: '2026-07-19T19:00:00Z',
+            endAt: '2026-07-19T22:00:00Z',
+            venue: 'MetLife Stadium, New York/New Jersey',
+            matchNumber: 104,
+            projectionNote: 'Si victoire en demi'
+        }
+    ];
+
     function toDate(value) {
         return new Date(value);
     }
@@ -100,6 +151,20 @@
         })[0] || null;
     }
 
+    function getFranceProjectionMatches(options) {
+        const settings = options || {};
+        const now = settings.now || new Date();
+        const nextConfirmedMatch = getNextFranceMatch(now);
+        const nextConfirmedStart = nextConfirmedMatch
+            ? getMatchStartDate(nextConfirmedMatch).getTime()
+            : now.getTime();
+
+        return franceProjectionMatches
+            .filter((match) => isMatchUpcoming(match, now))
+            .filter((match) => getMatchStartDate(match).getTime() > nextConfirmedStart)
+            .sort(byStartDate);
+    }
+
     function getMatchStatus(match, now) {
         const currentDate = now || new Date();
         const startDate = getMatchStartDate(match);
@@ -139,6 +204,7 @@
 
     window.SophiaBroadcastMatches = matches;
     window.SophiaMatches = {
+        getFranceProjectionMatches,
         getMatchEndDate,
         getMatchStartDate,
         getMatchStatus,

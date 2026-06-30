@@ -9,7 +9,7 @@
     <!-- PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="SOPHIA">
+    <meta name="apple-mobile-web-app-title" content="SOPHIA - Cap-Ferret">
     <link rel="apple-touch-icon" href="assets/logo.png">
     
     <!-- Manifest -->
@@ -23,7 +23,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     
-    <title>SOPHIA</title>
+    <title>SOPHIA - Cap-Ferret</title>
     
     <style>
         /* ============================================
@@ -253,7 +253,7 @@
 
         .tagline-secondary {
             font-size: 0.7rem;
-            margin-top: 0.25rem;
+            margin-top: 0.8rem;
         }
 
         /* ============================================
@@ -331,6 +331,157 @@
 
         .link-icon {
             font-size: 1.25rem;
+        }
+
+        .link-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.15rem;
+            text-align: center;
+        }
+
+        .link-label {
+            line-height: 1.2;
+        }
+
+        .link-subtext {
+            font-size: 0.78rem;
+            letter-spacing: 0.01em;
+            opacity: 0.85;
+            line-height: 1.1;
+        }
+
+        .link-button.feature-link {
+            align-items: stretch;
+            justify-content: flex-start;
+            flex-direction: column;
+            gap: 0.7rem;
+            min-height: 108px;
+            padding: 1.05rem 1.1rem;
+            text-align: left;
+            width: 100%;
+        }
+
+        .link-button.feature-link::before {
+            display: none;
+        }
+
+        .link-button.feature-link:hover span,
+        .link-button.feature-link:focus span {
+            color: inherit;
+        }
+
+        .feature-kicker {
+            position: relative;
+            z-index: 1;
+            font-size: 0.68rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            opacity: 0.82;
+        }
+
+        .feature-title {
+            position: relative;
+            z-index: 1;
+            font-family: 'Canela', 'Space Mono', 'Courier New', monospace;
+            font-size: 1.35rem;
+            font-weight: 500;
+            line-height: 1.05;
+            letter-spacing: 0;
+        }
+
+        .feature-meta {
+            position: relative;
+            z-index: 1;
+            font-size: 0.82rem;
+            line-height: 1.3;
+            opacity: 0.9;
+        }
+
+        .feature-bottom {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-top: auto;
+            font-size: 0.78rem;
+            line-height: 1.2;
+        }
+
+        .feature-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 58px;
+            min-height: 28px;
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .link-button.paella-highlight {
+            background:
+                radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.8) 0 12%, transparent 13%),
+                linear-gradient(135deg, #fff6c7 0%, #f5c242 46%, #e23f31 100%);
+            border-color: rgba(26, 26, 46, 0.16);
+            color: var(--text-dark);
+            gap: 0.45rem;
+            min-height: 84px;
+            padding: 0.8rem 0.95rem;
+            box-shadow: 0 12px 30px rgba(226, 63, 49, 0.24);
+        }
+
+        .link-button.paella-highlight .feature-kicker {
+            color: #7b1d14;
+            opacity: 1;
+        }
+
+        .link-button.paella-highlight .feature-title {
+            font-size: 1.08rem;
+            line-height: 1.1;
+        }
+
+        .link-button.paella-highlight .feature-pill {
+            background: rgba(255, 255, 255, 0.92);
+            color: #7b1d14;
+        }
+
+        .link-button.paella-highlight:hover,
+        .link-button.paella-highlight:focus {
+            background:
+                radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.9) 0 12%, transparent 13%),
+                linear-gradient(135deg, #fff0a8 0%, #f2b629 44%, #d93428 100%);
+            box-shadow: 0 14px 36px rgba(226, 63, 49, 0.32);
+        }
+
+        .link-button.world-cup-highlight {
+            background:
+                linear-gradient(120deg, rgba(255, 255, 255, 0.16) 0 20%, transparent 21% 100%),
+                linear-gradient(135deg, #112d7a 0%, #2563eb 58%, #e63946 140%);
+            border-color: transparent;
+            color: var(--secondary-color);
+            box-shadow: 0 12px 32px rgba(37, 99, 235, 0.34);
+        }
+
+        .link-button.world-cup-highlight .feature-pill {
+            background: rgba(255, 255, 255, 0.16);
+            color: var(--secondary-color);
+            border: 1px solid rgba(255, 255, 255, 0.34);
+        }
+
+        .link-button.world-cup-highlight:hover,
+        .link-button.world-cup-highlight:focus {
+            background:
+                linear-gradient(120deg, rgba(255, 255, 255, 0.2) 0 20%, transparent 21% 100%),
+                linear-gradient(135deg, #0f286c 0%, #1f58dd 56%, #d92f3e 135%);
+            box-shadow: 0 14px 38px rgba(37, 99, 235, 0.44);
         }
 
         /* ============================================
@@ -552,6 +703,7 @@
     </style>
 
     <!-- Vercel Web Analytics -->
+    <script src="broadcast-matches.js"></script>
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
@@ -604,8 +756,9 @@
            ============================================ */
         const config = {
             // 🏪 Informations du restaurant
+            restaurantName: "SOPHIA - Cap-Ferret",
             tagline: "Restaurant et bar à cocktail d'inspiration méditerranéenne au Cap-Ferret",
-            telephone: "Ouvert midi et soir du Mardi au Dimanche midi",
+            telephone: "Ouvert tous les jours de 12h à 1h · Cuisine ouverte en continu de 12h à 22h",
             
             // 🎨 Logo : peut être une image ("assets/logo.png"), un emoji ("🍽️"), ou du texte ("MR")
             logo: "assets/logo.png",      // ← Mets ton logo ici
@@ -644,12 +797,26 @@
            🔗 LIENS - MODIFIE ICI TES BOUTONS
            ============================================ */
         const links = [
+            {
+                label: "Grande paëlla maison, servie généreusement !",
+                eyebrow: "Tous les vendredis soirs",
+                price: "28 €",
+                url: "https://www.instagram.com/sophia.capferret/reel/DW_55xRjPrY/",
+                variant: "paella"
+            },
+            {
+                label: "Coupe du monde - matchs de la France",
+                url: "coupe-du-monde.html",
+                variant: "world-cup"
+            },
             { label: "Notre Menu", url: "https://drive.google.com/file/d/1WHjc8sDi5ZZA2bWQ8s8zsqdjfqH1lE0l/view?usp=sharing", icon: "🍽️" },
             { label: "Appeler pour réserver", url: "tel:+33564724988", icon: "📞" },
             { label: "Nous trouver", url: "#maps", icon: "📍", isMap: true },
             { label: "Laisser un avis", url: "https://g.page/r/CbOjHUpZBsNdEAE/review", icon: "⭐" },
             { label: "Rejoindre l'équipe Sophia", url: "https://recrutement-sophia-2026.vercel.app/", icon: "👋" },
         ];
+
+        let matchRefreshTimer = null;
 
         /* ============================================
            🚀 INITIALISATION
@@ -669,6 +836,7 @@
             renderSocials();
             renderFooter();
             attachAnalyticsHandlers();
+            startMatchRefresh();
             
             // Appliquer l'image de fond si configurée
             applyBackgroundImage();
@@ -740,20 +908,92 @@
         function renderLinks() {
             const container = document.getElementById('links-container');
             
-            container.innerHTML = links.map((link, index) => `
-                <a href="${link.url}" 
-                   class="link-button" 
-                   style="animation-delay: ${index * 0.1}s"
-                   data-analytics-label="${link.label}"
-                   ${link.isMap ? 'data-ismap="true"' : ''}
-                   ${link.url.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''}>
-                    <span class="link-icon">${link.icon}</span>
-                    <span class="link-label">${link.label}</span>
-                </a>
-            `).join('');
+            container.innerHTML = links.map((link, index) => renderLink(link, index)).join('');
             
             // Attacher le gestionnaire pour les liens Maps
             attachMapsHandler();
+        }
+
+        function renderLink(link, index) {
+            if (link.variant === 'paella') {
+                return renderPaellaLink(link, index);
+            }
+
+            if (link.variant === 'world-cup') {
+                return renderWorldCupLink(link, index);
+            }
+
+            return `
+                <a ${getLinkAttributes(link, index, 'link-button')}>
+                    ${link.icon ? `<span class="link-icon">${escapeHtml(link.icon)}</span>` : ''}
+                    <span class="link-content">
+                        <span class="link-label">${escapeHtml(link.label)}</span>
+                        ${link.subLabel ? `<span class="link-subtext">${escapeHtml(link.subLabel)}</span>` : ''}
+                    </span>
+                </a>
+            `;
+        }
+
+        function renderPaellaLink(link, index) {
+            return `
+                <a ${getLinkAttributes(link, index, 'link-button feature-link paella-highlight')}>
+                    <span class="feature-kicker">${escapeHtml(link.eyebrow)}</span>
+                    <span class="feature-title">${escapeHtml(link.label)}</span>
+                    <span class="feature-bottom">
+                        <span>Chez Sophia</span>
+                        <span class="feature-pill">${escapeHtml(link.price)}</span>
+                    </span>
+                </a>
+            `;
+        }
+
+        function renderWorldCupLink(link, index) {
+            const matchTools = window.SophiaMatches;
+            const nextMatch = matchTools ? matchTools.getNextFranceMatch() : null;
+            const title = nextMatch ? matchTools.getMatchTitle(nextMatch) : 'Les matchs de la France';
+            const status = nextMatch ? matchTools.getMatchStatus(nextMatch) : 'Calendrier à suivre';
+            const meta = nextMatch
+                ? `${matchTools.formatCompactDateTime(nextMatch)} · ${nextMatch.stage}`
+                : 'Les prochaines diffusions seront affichées ici';
+
+            return `
+                <a ${getLinkAttributes(link, index, 'link-button feature-link world-cup-highlight')}>
+                    <span class="feature-kicker">Coupe du monde 2026 · ${escapeHtml(status)}</span>
+                    <span class="feature-title">${escapeHtml(title)}</span>
+                    <span class="feature-meta">${escapeHtml(meta)}</span>
+                    <span class="feature-bottom">
+                        <span>Diffusé chez Sophia</span>
+                        <span class="feature-pill">Voir les matchs</span>
+                    </span>
+                </a>
+            `;
+        }
+
+        function getLinkAttributes(link, index, className) {
+            const isExternal = /^https?:\/\//.test(link.url);
+            return `href="${escapeHtml(link.url)}"
+                   class="${className}"
+                   style="animation-delay: ${index * 0.1}s"
+                   data-analytics-label="${escapeHtml(link.label)}"
+                   ${link.isMap ? 'data-ismap="true"' : ''}
+                   ${isExternal ? 'target="_blank" rel="noopener noreferrer"' : ''}`;
+        }
+
+        function startMatchRefresh() {
+            if (matchRefreshTimer) {
+                window.clearInterval(matchRefreshTimer);
+            }
+
+            matchRefreshTimer = window.setInterval(renderLinks, 60000);
+        }
+
+        function escapeHtml(value) {
+            return String(value || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
         }
 
         /* ============================================

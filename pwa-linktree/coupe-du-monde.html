@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="description" content="Les matchs de Coupe du monde diffusés chez SOPHIA - Cap-Ferret">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SOPHIA - Coupe du monde">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="assets/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <title>SOPHIA - Coupe du monde</title>
+
+    <style>
+        @font-face {
+            font-family: 'Canela';
+            src: url('assets/fonts/Canela-Light.woff2') format('woff2'),
+                 url('assets/fonts/Canela-Light.woff') format('woff');
+            font-weight: 300;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Canela';
+            src: url('assets/fonts/Canela-Regular.woff2') format('woff2'),
+                 url('assets/fonts/Canela-Regular.woff') format('woff');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #ffffff;
+            --text-dark: #1a1a2e;
+            --page-bg: #FFFDF6;
+            --line-color: rgba(37, 99, 235, 0.22);
+            --panel-bg: rgba(255, 255, 255, 0.9);
+            --shadow-medium: rgba(37, 99, 235, 0.18);
+            --danger-color: #d62828;
+            --success-color: #1f8a4c;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: 1.25rem;
+            color: var(--primary-color);
+            font-family: 'Space Mono', 'Courier New', monospace;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .background {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: var(--page-bg);
+        }
+
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            z-index: -1;
+            background-image: url('assets/bg.png');
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+            animation: floatBackground 20s ease-in-out infinite;
+        }
+
+        @keyframes floatBackground {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-6%);
+            }
+        }
+
+        .page-shell {
+            width: 100%;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 1rem 0 3rem;
+            animation: fadeInUp 0.7s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            min-height: 42px;
+            margin-bottom: 1.25rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.86rem;
+            font-weight: 700;
+        }
+
+        .brand-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .brand-logo {
+            width: 64px;
+            height: 64px;
+            border: 3px solid var(--secondary-color);
+            border-radius: 14px;
+            box-shadow: 0 8px 26px var(--shadow-medium);
+            object-fit: cover;
+            flex: 0 0 auto;
+        }
+
+        .eyebrow {
+            margin-bottom: 0.3rem;
+            font-size: 0.72rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            opacity: 0.78;
+        }
+
+        h1 {
+            color: var(--text-dark);
+            font-family: 'Canela', 'Space Mono', 'Courier New', monospace;
+            font-size: clamp(2rem, 8vw, 3.6rem);
+            font-weight: 400;
+            line-height: 0.96;
+            letter-spacing: 0;
+        }
+
+        .intro {
+            max-width: 34rem;
+            margin: 1rem 0 1.2rem;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            line-height: 1.55;
+        }
+
+        .reservation-panel {
+            display: grid;
+            gap: 0.75rem;
+            margin: 0 0 1.6rem;
+            padding: 0.95rem;
+            border: 2px solid var(--line-color);
+            border-radius: 8px;
+            background: var(--panel-bg);
+            color: var(--text-dark);
+            box-shadow: 0 10px 28px rgba(26, 26, 46, 0.08);
+        }
+
+        .reservation-title {
+            color: var(--primary-color);
+            font-size: 0.78rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .reservation-details {
+            display: grid;
+            gap: 0.35rem;
+            font-size: 0.86rem;
+            line-height: 1.45;
+        }
+
+        .reservation-extra {
+            padding: 0.65rem 0.75rem;
+            border: 2px solid rgba(31, 138, 76, 0.22);
+            border-radius: 8px;
+            background: rgba(31, 138, 76, 0.08);
+            color: var(--text-dark);
+            font-size: 0.84rem;
+            line-height: 1.45;
+        }
+
+        .reservation-extra strong {
+            color: var(--success-color);
+        }
+
+        .reservation-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .reservation-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 38px;
+            padding: 0.45rem 0.75rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 700;
+        }
+
+        .reservation-link.primary {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+        }
+
+        .next-match {
+            display: grid;
+            gap: 0.85rem;
+            margin: 1.35rem 0 2rem;
+            padding: 1rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.96), rgba(17, 45, 122, 0.96));
+            color: var(--secondary-color);
+            box-shadow: 0 12px 32px rgba(37, 99, 235, 0.28);
+        }
+
+        .next-match h2,
+        .section-title {
+            font-size: 0.78rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .next-title {
+            font-family: 'Canela', 'Space Mono', 'Courier New', monospace;
+            font-size: clamp(1.65rem, 7vw, 2.8rem);
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: 0;
+        }
+
+        .next-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+            font-size: 0.85rem;
+            line-height: 1.35;
+        }
+
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            min-height: 30px;
+            padding: 0.3rem 0.65rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.32);
+            color: inherit;
+            white-space: nowrap;
+        }
+
+        .section-title {
+            margin: 1.8rem 0 0.75rem;
+            color: var(--primary-color);
+        }
+
+        .match-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .match-card {
+            border: 2px solid var(--line-color);
+            border-radius: 8px;
+            background: var(--panel-bg);
+            color: var(--text-dark);
+            box-shadow: 0 10px 28px rgba(26, 26, 46, 0.08);
+            overflow: hidden;
+        }
+
+        .match-card.is-live {
+            border-color: #e63946;
+            box-shadow: 0 12px 32px rgba(230, 57, 70, 0.18);
+        }
+
+        body.is-plan-modal-open {
+            overflow: hidden;
+        }
+
+        .match-summary {
+            display: grid;
+            grid-template-columns: 4.25rem minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 0.95rem;
+            width: 100%;
+            padding: 0.9rem;
+            border: 0;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .match-summary:focus-visible {
+            outline: 3px solid var(--primary-color);
+            outline-offset: -5px;
+        }
+
+        .match-main {
+            min-width: 0;
+        }
+
+        .match-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 32px;
+            padding: 0.35rem 0.7rem;
+            border: 2px solid var(--primary-color);
+            border-radius: 999px;
+            color: var(--primary-color);
+            font-size: 0.72rem;
+            font-weight: 700;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        .date-badge {
+            display: grid;
+            place-items: center;
+            min-height: 4.25rem;
+            border-radius: 8px;
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            text-align: center;
+            line-height: 1;
+        }
+
+        .date-badge span {
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            opacity: 0.82;
+        }
+
+        .date-badge strong {
+            font-size: 1.45rem;
+        }
+
+        .match-stage {
+            display: block;
+            margin-bottom: 0.3rem;
+            color: var(--primary-color);
+            font-size: 0.72rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .match-title {
+            display: block;
+            color: var(--text-dark);
+            font-family: 'Canela', 'Space Mono', 'Courier New', monospace;
+            font-size: 1.55rem;
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: 0;
+        }
+
+        .match-meta {
+            display: block;
+            margin-top: 0.55rem;
+            font-size: 0.82rem;
+            line-height: 1.45;
+        }
+
+        .projection-panel {
+            margin-bottom: 1.8rem;
+        }
+
+        .projection-intro {
+            margin: -0.3rem 0 0.85rem;
+            color: var(--text-dark);
+            font-size: 0.86rem;
+            line-height: 1.45;
+        }
+
+        .projection-list {
+            display: grid;
+            gap: 0.65rem;
+        }
+
+        .projection-card {
+            display: grid;
+            grid-template-columns: 4.25rem minmax(0, 1fr);
+            align-items: center;
+            gap: 0.95rem;
+            padding: 0.9rem;
+            border: 2px solid rgba(37, 99, 235, 0.16);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.78);
+            color: var(--text-dark);
+            box-shadow: 0 8px 22px rgba(26, 26, 46, 0.06);
+        }
+
+        .projection-card .date-badge {
+            background: rgba(37, 99, 235, 0.12);
+            color: var(--primary-color);
+            box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+
+        .projection-card .match-title {
+            font-size: 1.28rem;
+        }
+
+        .projection-note {
+            display: inline-flex;
+            width: fit-content;
+            margin-bottom: 0.42rem;
+            padding: 0.2rem 0.48rem;
+            border-radius: 999px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary-color);
+            font-size: 0.66rem;
+            font-weight: 700;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .tribune-plan {
+            overflow-x: auto;
+            padding: 0.75rem;
+            border: 2px solid rgba(17, 45, 122, 0.18);
+            border-radius: 8px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(226, 239, 252, 0.82));
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.82);
+        }
+
+        .tribune-svg {
+            display: block;
+            width: 100%;
+            min-width: min(560px, 100%);
+            height: auto;
+        }
+
+        .plan-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 20;
+            display: grid;
+            place-items: center;
+            padding: 1rem;
+        }
+
+        .plan-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(8, 19, 44, 0.62);
+            backdrop-filter: blur(4px);
+        }
+
+        .plan-modal-card {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-rows: auto minmax(0, 1fr) auto;
+            gap: 0.85rem;
+            width: min(1080px, 100%);
+            max-height: calc(100dvh - 2rem);
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.72);
+            border-radius: 14px;
+            background: rgba(255, 253, 246, 0.98);
+            box-shadow: 0 24px 80px rgba(8, 19, 44, 0.34);
+        }
+
+        .plan-modal-header {
+            display: grid;
+            gap: 0.35rem;
+            padding: 1rem 3.8rem 0.75rem 1rem;
+            border-bottom: 2px solid rgba(37, 99, 235, 0.14);
+        }
+
+        .plan-modal-title {
+            color: var(--text-dark);
+            font-family: 'Canela', 'Space Mono', 'Courier New', monospace;
+            font-size: clamp(1.45rem, 6vw, 2.45rem);
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        .plan-modal-meta {
+            color: rgba(26, 26, 46, 0.72);
+            font-size: 0.82rem;
+            line-height: 1.35;
+        }
+
+        .plan-modal-close {
+            position: absolute;
+            top: 0.8rem;
+            right: 0.8rem;
+            display: inline-grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            border: 2px solid var(--primary-color);
+            border-radius: 999px;
+            background: var(--secondary-color);
+            color: var(--primary-color);
+            font: inherit;
+            font-size: 1.45rem;
+            font-weight: 700;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .plan-modal-body {
+            min-height: 0;
+            overflow: auto;
+            padding: 0 1rem;
+        }
+
+        .plan-modal-body .tribune-plan {
+            padding: 0.55rem;
+        }
+
+        .plan-modal-footer {
+            display: grid;
+            gap: 0.75rem;
+            padding: 0.85rem 1rem 1rem;
+            border-top: 2px solid rgba(37, 99, 235, 0.14);
+            background: rgba(255, 255, 255, 0.74);
+        }
+
+        .plan-modal-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            color: var(--text-dark);
+            font-size: 0.78rem;
+            line-height: 1.35;
+        }
+
+        .plan-dot {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .plan-dot::before {
+            content: '';
+            width: 0.72rem;
+            height: 0.72rem;
+            border-radius: 999px;
+            background: var(--success-color);
+        }
+
+        .plan-dot.occupied::before {
+            background: var(--danger-color);
+        }
+
+        .plan-shell {
+            fill: url(#plan-shell-gradient);
+            stroke: #12325f;
+            stroke-width: 4;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .plan-divider {
+            stroke: #12325f;
+            stroke-width: 2.5;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .plan-seat,
+        .plan-side-seat {
+            fill: url(#plan-seat-gradient);
+            stroke: #12325f;
+            stroke-width: 3;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .plan-side-seat.round {
+            rx: 30;
+        }
+
+        .plan-seat-shine {
+            fill: rgba(255, 255, 255, 0.42);
+        }
+
+        .plan-zone-label {
+            fill: rgba(255, 255, 255, 0.95);
+            stroke: #12325f;
+            stroke-width: 2;
+            filter: url(#plan-soft-shadow);
+            vector-effect: non-scaling-stroke;
+        }
+
+        .plan-label,
+        .plan-seat-number,
+        .plan-legend {
+            font-family: 'Space Mono', 'Courier New', monospace;
+            text-anchor: middle;
+        }
+
+        .plan-label {
+            fill: #12325f;
+            font-family: 'Space Mono', 'Courier New', monospace;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .plan-seat-badge {
+            fill: #12325f;
+        }
+
+        .plan-seat-number {
+            fill: var(--secondary-color);
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .plan-side-label {
+            fill: #12325f;
+            font-family: 'Space Mono', 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            text-anchor: middle;
+            text-transform: uppercase;
+        }
+
+        .plan-reserved-overlay {
+            fill: rgba(214, 40, 40, 0.16);
+            stroke: #d62828;
+            stroke-width: 2;
+            vector-effect: non-scaling-stroke;
+        }
+
+        .plan-status-pill {
+            stroke-width: 0;
+        }
+
+        .plan-status-pill.reserved {
+            fill: #d62828;
+        }
+
+        .plan-status-pill.free {
+            fill: #1f8a4c;
+        }
+
+        .plan-status-text {
+            fill: var(--secondary-color);
+            font-family: 'Space Mono', 'Courier New', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            text-anchor: middle;
+            text-transform: uppercase;
+        }
+
+        .plan-legend {
+            fill: #12325f;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+        }
+
+        .empty-state {
+            padding: 1rem;
+            border: 2px dashed var(--line-color);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.72);
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            line-height: 1.45;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        @media (max-width: 479px) {
+            body {
+                padding: 1rem;
+            }
+
+            .background-image {
+                background-size: 100% auto;
+                animation: floatBackground 20s ease-in-out infinite;
+            }
+
+            .brand-header {
+                align-items: flex-start;
+            }
+
+            .brand-logo {
+                width: 56px;
+                height: 56px;
+            }
+
+            .match-summary {
+                grid-template-columns: 3.75rem minmax(0, 1fr);
+                gap: 0.75rem;
+            }
+
+            .match-toggle {
+                grid-column: 2;
+                justify-self: start;
+            }
+
+            .date-badge {
+                min-height: 3.75rem;
+            }
+
+            .match-title {
+                font-size: 1.3rem;
+            }
+
+            .projection-card {
+                grid-template-columns: 3.75rem minmax(0, 1fr);
+                gap: 0.75rem;
+            }
+
+            .projection-card .match-title {
+                font-size: 1.15rem;
+            }
+
+            .plan-modal {
+                padding: 0.65rem;
+                align-items: stretch;
+            }
+
+            .plan-modal-card {
+                max-height: calc(100dvh - 1.3rem);
+            }
+
+            .plan-modal-header {
+                padding: 0.85rem 3.45rem 0.7rem 0.85rem;
+            }
+
+            .plan-modal-body {
+                padding: 0 0.65rem;
+            }
+
+            .plan-modal-footer {
+                padding: 0.75rem 0.85rem 0.85rem;
+            }
+
+            .plan-modal-footer .reservation-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="background-image"></div>
+
+    <main class="page-shell">
+        <a class="back-link" href="index.html">← Retour à Sophia</a>
+
+        <header>
+            <div class="brand-header">
+                <img class="brand-logo" src="assets/logo.png" alt="Logo SOPHIA">
+                <div>
+                    <p class="eyebrow">SOPHIA - Cap-Ferret</p>
+                    <h1>Coupe du monde</h1>
+                </div>
+            </div>
+            <p class="intro">
+                Les soirs des Bleus se regardent chez Sophia, avec les prochains rendez-vous de la France en Coupe du monde.
+            </p>
+        </header>
+
+        <section class="reservation-panel" aria-labelledby="reservation-title">
+            <h2 class="reservation-title" id="reservation-title">Réserver une place pour le match</h2>
+            <div class="reservation-details">
+                <p>67 boulevard de la Plage, 33970 Cap-Ferret</p>
+                <p>05 64 72 49 88</p>
+            </div>
+            <p class="reservation-extra">
+                <strong>Pas seulement les tribunes :</strong> il y a aussi des places hors tribune. Appelez-nous pour réserver votre place.
+            </p>
+            <div class="reservation-actions">
+                <a class="reservation-link primary" href="tel:+33564724988">Appeler pour réserver</a>
+                <a class="reservation-link" href="https://www.google.com/maps/search/?api=1&query=67%20boulevard%20de%20la%20Plage%2033970%20Cap-Ferret" target="_blank" rel="noopener noreferrer">Voir l'adresse</a>
+            </div>
+        </section>
+
+        <section class="next-match" id="next-match" aria-live="polite"></section>
+
+        <section aria-labelledby="france-title">
+            <h2 class="section-title" id="france-title">Matchs de la France</h2>
+            <div class="match-list" id="france-matches"></div>
+        </section>
+
+        <section class="projection-panel" id="projection-section" aria-labelledby="projection-title" hidden>
+            <h2 class="section-title" id="projection-title">Si la France gagne</h2>
+            <p class="projection-intro">Parcours possible des Bleus jusqu'à la finale, avec les horaires en France.</p>
+            <div class="projection-list" id="projection-matches"></div>
+        </section>
+
+        <section id="other-section" aria-labelledby="other-title" hidden>
+            <h2 class="section-title" id="other-title">Autres diffusions</h2>
+            <div class="match-list" id="other-matches"></div>
+        </section>
+    </main>
+
+    <div class="plan-modal" id="plan-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="plan-modal-title" hidden>
+        <div class="plan-modal-backdrop" data-plan-close></div>
+        <section class="plan-modal-card">
+            <button class="plan-modal-close" type="button" aria-label="Fermer le plan" data-plan-close>×</button>
+            <header class="plan-modal-header">
+                <p class="eyebrow">Plan des tribunes</p>
+                <h2 class="plan-modal-title" id="plan-modal-title">Plan des tribunes</h2>
+                <p class="plan-modal-meta" id="plan-modal-meta"></p>
+            </header>
+            <div class="plan-modal-body" id="plan-modal-body"></div>
+            <footer class="plan-modal-footer">
+                <div class="plan-modal-legend">
+                    <span class="plan-dot">Libre</span>
+                    <span class="plan-dot occupied">Occupé</span>
+                    <span>Actualisation automatique des réservations.</span>
+                </div>
+                <p class="reservation-extra">
+                    <strong>Places hors tribune disponibles :</strong> appelez-nous aussi pour réserver une table ou une place classique.
+                </p>
+                <div class="reservation-actions">
+                    <a class="reservation-link primary" href="tel:+33564724988">Appeler pour réserver</a>
+                    <a class="reservation-link" href="https://www.google.com/maps/search/?api=1&query=67%20boulevard%20de%20la%20Plage%2033970%20Cap-Ferret" target="_blank" rel="noopener noreferrer">Voir l'adresse</a>
+                </div>
+            </footer>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="tribune-reservations.js"></script>
+    <script src="broadcast-matches.js"></script>
+    <script>
+        const PARIS_TIME_ZONE = 'Europe/Paris';
+        const RESERVATION_PHONE_DISPLAY = '05 64 72 49 88';
+        const RESERVATION_PHONE_LINK = '+33564724988';
+        const RESTAURANT_ADDRESS = '67 boulevard de la Plage, 33970 Cap-Ferret';
+        const planModal = document.getElementById('plan-modal');
+        const planModalTitle = document.getElementById('plan-modal-title');
+        const planModalMeta = document.getElementById('plan-modal-meta');
+        const planModalBody = document.getElementById('plan-modal-body');
+        let activePlanMatchId = '';
+        let lastPlanTrigger = null;
+        let reservationsByPlace = {};
+        let scheduleRefreshTimer = null;
+        let reservationRefreshTimer = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSchedule();
+            document.addEventListener('click', handlePlanAction);
+            document.addEventListener('keydown', handlePlanKeydown);
+            loadTribuneReservations();
+            scheduleRefreshTimer = window.setInterval(renderSchedule, 60000);
+            reservationRefreshTimer = window.setInterval(loadTribuneReservations, 30000);
+        });
+
+        window.addEventListener('beforeunload', () => {
+            if (scheduleRefreshTimer) {
+                window.clearInterval(scheduleRefreshTimer);
+            }
+            if (reservationRefreshTimer) {
+                window.clearInterval(reservationRefreshTimer);
+            }
+        });
+
+        async function loadTribuneReservations() {
+            const reservationTools = window.SophiaTribuneReservations;
+            const matches = window.SophiaBroadcastMatches || [];
+
+            if (!reservationTools || !matches.length) {
+                return;
+            }
+
+            try {
+                const matchIds = matches
+                    .filter((match) => match.broadcast)
+                    .map((match) => match.id);
+                const reservations = await reservationTools.fetchConfirmedReservations(matchIds);
+                reservationsByPlace = reservationTools.mapConfirmedReservations(reservations);
+                renderSchedule();
+                refreshOpenPlanModal();
+            } catch (error) {
+                console.warn('Impossible de charger les réservations tribunes', error);
+            }
+        }
+
+        function renderSchedule() {
+            const matchTools = window.SophiaMatches;
+            if (!matchTools) {
+                renderMissingDataState();
+                return;
+            }
+
+            const now = new Date();
+            const franceMatches = matchTools.getUpcomingMatches({ now, franceOnly: true });
+            const projectionMatches = matchTools.getFranceProjectionMatches
+                ? matchTools.getFranceProjectionMatches({ now })
+                : [];
+            const otherMatches = matchTools
+                .getUpcomingMatches({ now })
+                .filter((match) => !match.franceMatch);
+
+            renderNextMatch(matchTools.getNextFranceMatch(now), now);
+            renderFranceProjection(projectionMatches);
+            renderMatchList('france-matches', franceMatches, now);
+            renderOtherMatches(otherMatches, now);
+        }
+
+        function renderNextMatch(match, now) {
+            const container = document.getElementById('next-match');
+
+            if (!match) {
+                container.innerHTML = `
+                    <h2>Prochain match</h2>
+                    <p class="next-title">À confirmer</p>
+                    <div class="next-details">
+                        <span class="pill">Calendrier à mettre à jour</span>
+                    </div>
+                `;
+                return;
+            }
+
+            const matchTools = window.SophiaMatches;
+            const status = matchTools.getMatchStatus(match, now);
+            container.innerHTML = `
+                <h2>${escapeHtml(status === 'En cours' ? status : 'Prochain match validé')}</h2>
+                <p class="next-title">${escapeHtml(matchTools.getMatchTitle(match))}</p>
+                <div class="next-details">
+                    <span class="pill">${escapeHtml(matchTools.formatDate(match))}</span>
+                    <span class="pill">${escapeHtml(matchTools.formatTime(match))}</span>
+                    <span class="pill">${escapeHtml(match.stage)}</span>
+                </div>
+            `;
+        }
+
+        function renderMatchList(elementId, matches, now) {
+            const container = document.getElementById(elementId);
+
+            if (!matches.length) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        Les prochaines diffusions seront affichées ici dès confirmation.
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = matches
+                .map((match) => renderMatchCard(match, now))
+                .join('');
+        }
+
+        function renderFranceProjection(matches) {
+            const section = document.getElementById('projection-section');
+            const container = document.getElementById('projection-matches');
+
+            if (!matches.length) {
+                section.hidden = true;
+                container.innerHTML = '';
+                return;
+            }
+
+            section.hidden = false;
+            container.innerHTML = matches
+                .map((match) => renderProjectionCard(match))
+                .join('');
+        }
+
+        function renderProjectionCard(match) {
+            const matchTools = window.SophiaMatches;
+            const startDate = matchTools.getMatchStartDate(match);
+            const dateParts = getDateParts(startDate);
+
+            return `
+                <article class="projection-card">
+                    <span class="date-badge" aria-hidden="true">
+                        <span>${escapeHtml(dateParts.weekday)}</span>
+                        <strong>${escapeHtml(dateParts.day)}</strong>
+                        <span>${escapeHtml(dateParts.month)}</span>
+                    </span>
+                    <span class="match-main">
+                        <span class="projection-note">${escapeHtml(match.projectionNote)}</span>
+                        <span class="match-stage">${escapeHtml(match.stage)} · Match ${escapeHtml(match.matchNumber)}</span>
+                        <span class="match-title">${escapeHtml(matchTools.getMatchTitle(match))}</span>
+                        <span class="match-meta">
+                            ${escapeHtml(matchTools.formatTime(match))}<br>
+                            ${escapeHtml(match.venue)}
+                        </span>
+                    </span>
+                </article>
+            `;
+        }
+
+        function renderOtherMatches(matches, now) {
+            const section = document.getElementById('other-section');
+
+            if (!matches.length) {
+                section.hidden = true;
+                return;
+            }
+
+            section.hidden = false;
+            renderMatchList('other-matches', matches, now);
+        }
+
+        function renderMatchCard(match, now) {
+            const matchTools = window.SophiaMatches;
+            const startDate = matchTools.getMatchStartDate(match);
+            const dateParts = getDateParts(startDate);
+            const status = matchTools.getMatchStatus(match, now);
+            const isLive = status === 'En cours';
+
+            return `
+                <article class="match-card ${isLive ? 'is-live' : ''}">
+                    <button class="match-summary" type="button" data-match-plan="${escapeHtml(match.id)}" aria-haspopup="dialog">
+                    <span class="date-badge" aria-hidden="true">
+                        <span>${escapeHtml(dateParts.weekday)}</span>
+                        <strong>${escapeHtml(dateParts.day)}</strong>
+                        <span>${escapeHtml(dateParts.month)}</span>
+                    </span>
+                    <span class="match-main">
+                        <span class="match-stage">${escapeHtml(match.stage)} · Match ${escapeHtml(match.matchNumber)}</span>
+                        <span class="match-title">${escapeHtml(matchTools.getMatchTitle(match))}</span>
+                        <span class="match-meta">
+                            ${escapeHtml(matchTools.formatTime(match))} · ${escapeHtml(status)}<br>
+                            ${escapeHtml(match.venue)}
+                        </span>
+                    </span>
+                    <span class="match-toggle">Voir le plan</span>
+                    </button>
+                </article>
+            `;
+        }
+
+        function renderTribuneMap(matchId) {
+            return `
+                <div class="tribune-plan">
+                    <svg class="tribune-svg" viewBox="0 0 1040 660" role="img" aria-labelledby="plan-title-${escapeHtml(matchId)} plan-desc-${escapeHtml(matchId)}">
+                        <title id="plan-title-${escapeHtml(matchId)}">Plan des tribunes Sophia</title>
+                        <desc id="plan-desc-${escapeHtml(matchId)}">De haut en bas : tribune présidentielle P1 à P4, tribune VIP V1 à V4, tribune catégorie 1 C1 à C4. Tabourets haut TH1 et TH2, tabourets bas TB1 et TB2 sur les côtés.</desc>
+                        <defs>
+                            <linearGradient id="plan-shell-gradient" x1="0" x2="1" y1="0" y2="1">
+                                <stop offset="0%" stop-color="#ffffff"></stop>
+                                <stop offset="100%" stop-color="#eef6ff"></stop>
+                            </linearGradient>
+                            <linearGradient id="plan-seat-gradient" x1="0" x2="1" y1="0" y2="1">
+                                <stop offset="0%" stop-color="#f8fbff"></stop>
+                                <stop offset="100%" stop-color="#dbeaf7"></stop>
+                            </linearGradient>
+                            <filter id="plan-soft-shadow" x="-20%" y="-40%" width="140%" height="180%">
+                                <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#12325f" flood-opacity="0.18"></feDropShadow>
+                            </filter>
+                        </defs>
+
+                        <rect width="1040" height="660" rx="16" fill="#f8fbff"></rect>
+                        <rect class="plan-shell" x="190" y="58" width="660" height="520" rx="8"></rect>
+                        <line class="plan-divider" x1="190" y1="232" x2="850" y2="232"></line>
+                        <line class="plan-divider" x1="190" y1="406" x2="850" y2="406"></line>
+
+                        <rect class="plan-seat" x="220" y="84" width="130" height="112" rx="4"></rect>
+                        <rect class="plan-seat-shine" x="228" y="93" width="114" height="96" rx="3"></rect>
+                        <circle class="plan-seat-badge" cx="246" cy="112" r="21"></circle>
+                        <text class="plan-seat-number" x="246" y="118">P1</text>
+                        ${renderPlaceStatus(matchId, 'P1', 220, 84, 130, 112)}
+                        <rect class="plan-seat" x="380" y="84" width="130" height="112" rx="4"></rect>
+                        <rect class="plan-seat-shine" x="388" y="93" width="114" height="96" rx="3"></rect>
+                        <circle class="plan-seat-badge" cx="406" cy="112" r="21"></circle>
+                        <text class="plan-seat-number" x="406" y="118">P2</text>
+                        ${renderPlaceStatus(matchId, 'P2', 380, 84, 130, 112)}
+                        <rect class="plan-seat" x="540" y="84" width="130" height="112" rx="4"></rect>
+                        <rect class="plan-seat-shine" x="548" y="93" width="114" height="96" rx="3"></rect>
+                        <circle class="plan-seat-badge" cx="566" cy="112" r="21"></circle>
+                        <text class="plan-seat-number" x="566" y="118">P3</text>
+                        ${renderPlaceStatus(matchId, 'P3', 540, 84, 130, 112)}
+                        <rect class="plan-seat" x="700" y="84" width="120" height="112" rx="4"></rect>
+                        <rect class="plan-seat-shine" x="708" y="93" width="104" height="96" rx="3"></rect>
+                        <circle class="plan-seat-badge" cx="726" cy="112" r="21"></circle>
+                        <text class="plan-seat-number" x="726" y="118">P4</text>
+                        ${renderPlaceStatus(matchId, 'P4', 700, 84, 120, 112)}
+                        <rect class="plan-zone-label" x="360" y="126" width="320" height="32" rx="6"></rect>
+                        <text class="plan-label" x="520" y="147">Tribune présidentielle</text>
+
+                        <rect class="plan-seat" x="220" y="260" width="130" height="112" rx="4"></rect>
+                        <rect class="plan-seat-shine" x="228" y="269" width="114" height="96" rx="3"></rect>
+                        <circle class="plan-seat-badge" cx="246" cy="288" r="21"></circle>
+                        <text class="plan-seat-number" x="246" y="294">V1</text>
+                        ${renderPlaceStatus(matchId, 'V1', 220, 260, 130, 112)}
+                        <rect class="plan-seat" x="380" y="260" width="130" height="112" rx="4"></rect>
+                        <rect class="plan-seat-shine" x="388" y="269" width="114" height="96" rx="3"></rect>
+                        <circle class="plan-seat-badge" cx="406" cy="288" r="21"></circle>
+                        <text class="plan-seat-number" x="406" y="294">V2</text>
+                        ${renderPlaceStatus(matchId, 'V2', 380, 260, 130, 112)}
+                        <rect class="plan-seat" x="540" y="260" width="130" height="112" rx="4"></rect>
+                        <rect class="plan-seat-shine" x="548" y="269" width="114" height="96" rx="3"></rect>
+                        <circle class="plan-seat-badge" cx="566" cy="288" r="21"></circle>
+                        <text class="plan-seat-number" x="566" y="294">V3</text>
+                        ${renderPlaceStatus(matchId, 'V3', 540, 260, 130, 112)}
+                        <rect class="plan-seat" x="700" y="260" width="120" height="112" rx="4"></rect>
+                        <rect class="plan-seat-shine" x="708" y="269" width="104" height="96" rx="3"></rect>
+                        <circle class="plan-seat-badge" cx="726" cy="288" r="21"></circle>
+                        <text class="plan-seat-number" x="726" y="294">V4</text>
+                        ${renderPlaceStatus(matchId, 'V4', 700, 260, 120, 112)}
+                        <rect class="plan-zone-label" x="385" y="300" width="270" height="32" rx="6"></rect>
+                        <text class="plan-label" x="520" y="321">Tribune VIP</text>
+
+                        <rect class="plan-seat" x="220" y="436" width="130" height="112" rx="4"></rect>
+                        <rect class="plan-seat-shine" x="228" y="445" width="114" height="96" rx="3"></rect>
+                        <circle class="plan-seat-badge" cx="246" cy="464" r="21"></circle>
+                        <text class="plan-seat-number" x="246" y="470">C1</text>
+                        ${renderPlaceStatus(matchId, 'C1', 220, 436, 130, 112)}
+                        <rect class="plan-seat" x="380" y="436" width="130" height="112" rx="4"></rect>
+                        <rect class="plan-seat-shine" x="388" y="445" width="114" height="96" rx="3"></rect>
+                        <circle class="plan-seat-badge" cx="406" cy="464" r="21"></circle>
+                        <text class="plan-seat-number" x="406" y="470">C2</text>
+                        ${renderPlaceStatus(matchId, 'C2', 380, 436, 130, 112)}
+                        <rect class="plan-seat" x="540" y="436" width="130" height="112" rx="4"></rect>
+                        <rect class="plan-seat-shine" x="548" y="445" width="114" height="96" rx="3"></rect>
+                        <circle class="plan-seat-badge" cx="566" cy="464" r="21"></circle>
+                        <text class="plan-seat-number" x="566" y="470">C3</text>
+                        ${renderPlaceStatus(matchId, 'C3', 540, 436, 130, 112)}
+                        <rect class="plan-seat" x="700" y="436" width="120" height="112" rx="4"></rect>
+                        <rect class="plan-seat-shine" x="708" y="445" width="104" height="96" rx="3"></rect>
+                        <circle class="plan-seat-badge" cx="726" cy="464" r="21"></circle>
+                        <text class="plan-seat-number" x="726" y="470">C4</text>
+                        ${renderPlaceStatus(matchId, 'C4', 700, 436, 120, 112)}
+                        <rect class="plan-zone-label" x="355" y="475" width="330" height="32" rx="6"></rect>
+                        <text class="plan-label" x="520" y="496">Tribune catégorie 1</text>
+
+                        <rect class="plan-side-seat" x="38" y="278" width="120" height="96" rx="4"></rect>
+                        <rect class="plan-seat-shine" x="47" y="287" width="102" height="78" rx="3"></rect>
+                        <circle class="plan-seat-badge" cx="70" cy="306" r="20"></circle>
+                        <text class="plan-seat-number" x="70" y="312">TH1</text>
+                        ${renderPlaceStatus(matchId, 'TH1', 38, 278, 120, 96)}
+
+                        <rect class="plan-side-seat" x="882" y="278" width="120" height="96" rx="4"></rect>
+                        <rect class="plan-seat-shine" x="891" y="287" width="102" height="78" rx="3"></rect>
+                        <circle class="plan-seat-badge" cx="914" cy="306" r="20"></circle>
+                        <text class="plan-seat-number" x="914" y="312">TH2</text>
+                        ${renderPlaceStatus(matchId, 'TH2', 882, 278, 120, 96)}
+                        <path d="M952 302 h14 m-7 0 v28 m-14 0 h28 m-24 18 h20" fill="none" stroke="#12325f" stroke-width="2.4" stroke-linecap="round"></path>
+                        <ellipse cx="959" cy="296" rx="16" ry="4" fill="none" stroke="#12325f" stroke-width="2.4"></ellipse>
+                        <text class="plan-side-label" x="942" y="342">
+                            <tspan x="942" dy="0">Tabouret</tspan>
+                            <tspan x="942" dy="18">haut</tspan>
+                        </text>
+
+                        <rect class="plan-side-seat round" x="46" y="450" width="112" height="82" rx="30"></rect>
+                        <rect class="plan-seat-shine" x="58" y="461" width="88" height="60" rx="24"></rect>
+                        <circle class="plan-seat-badge" cx="78" cy="478" r="20"></circle>
+                        <text class="plan-seat-number" x="78" y="484">TB1</text>
+                        ${renderPlaceStatus(matchId, 'TB1', 46, 450, 112, 82)}
+
+                        <rect class="plan-side-seat round" x="882" y="450" width="112" height="82" rx="30"></rect>
+                        <rect class="plan-seat-shine" x="894" y="461" width="88" height="60" rx="24"></rect>
+                        <circle class="plan-seat-badge" cx="914" cy="478" r="20"></circle>
+                        <text class="plan-seat-number" x="914" y="484">TB2</text>
+                        ${renderPlaceStatus(matchId, 'TB2', 882, 450, 112, 82)}
+                        <path d="M944 490 h20 m-15 0 l-5 18 m15 -18 l5 18" fill="none" stroke="#12325f" stroke-width="2.4" stroke-linecap="round"></path>
+                        <ellipse cx="954" cy="486" rx="16" ry="6" fill="none" stroke="#12325f" stroke-width="2.4"></ellipse>
+                        <text class="plan-side-label" x="938" y="505">
+                            <tspan x="938" dy="0">Tabouret</tspan>
+                            <tspan x="938" dy="18">bas</tspan>
+                        </text>
+
+                        <text class="plan-legend" x="520" y="613">P = Présidentielle · V = VIP · C = Catégorie 1 · TH/TB = Tabourets</text>
+                    </svg>
+                </div>
+            `;
+        }
+
+        function renderPlaceStatus(matchId, placeCode, x, y, width, height) {
+            const reservationTools = window.SophiaTribuneReservations;
+            const key = reservationTools
+                ? reservationTools.getReservationKey(matchId, placeCode)
+                : `${matchId}::${placeCode}`;
+            const reservation = reservationsByPlace[key];
+            const isReserved = Boolean(reservation);
+            const pillWidth = isReserved ? 78 : 50;
+            const pillX = x + width - pillWidth - 8;
+            const pillY = y + height - 30;
+            const pillTextX = pillX + pillWidth / 2;
+            const pillTextY = pillY + 18;
+
+            return `
+                <g aria-label="${escapeHtml(placeCode)} ${isReserved ? 'occupé' : 'libre'}">
+                    ${isReserved ? `<rect class="plan-reserved-overlay" x="${x + 4}" y="${y + 4}" width="${width - 8}" height="${height - 8}" rx="4"></rect>` : ''}
+                    <rect class="plan-status-pill ${isReserved ? 'reserved' : 'free'}" x="${pillX}" y="${pillY}" width="${pillWidth}" height="22" rx="11"></rect>
+                    <text class="plan-status-text" x="${pillTextX}" y="${pillTextY}">${isReserved ? 'Occupé' : 'Libre'}</text>
+                </g>
+            `;
+        }
+
+        function handlePlanAction(event) {
+            const openButton = event.target.closest('[data-match-plan]');
+
+            if (openButton) {
+                openPlanModal(openButton.dataset.matchPlan, openButton);
+                return;
+            }
+
+            if (event.target.closest('[data-plan-close]')) {
+                closePlanModal();
+            }
+        }
+
+        function handlePlanKeydown(event) {
+            if (event.key === 'Escape' && activePlanMatchId) {
+                closePlanModal();
+            }
+        }
+
+        function openPlanModal(matchId, trigger) {
+            const match = findMatchById(matchId);
+
+            if (!match) {
+                return;
+            }
+
+            activePlanMatchId = matchId;
+            lastPlanTrigger = trigger || null;
+            renderPlanModal(match);
+
+            planModal.hidden = false;
+            planModal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('is-plan-modal-open');
+
+            const closeButton = planModal.querySelector('.plan-modal-close');
+            if (closeButton) {
+                closeButton.focus();
+            }
+        }
+
+        function closePlanModal() {
+            activePlanMatchId = '';
+            planModal.hidden = true;
+            planModal.setAttribute('aria-hidden', 'true');
+            planModalBody.innerHTML = '';
+            document.body.classList.remove('is-plan-modal-open');
+
+            if (lastPlanTrigger) {
+                lastPlanTrigger.focus();
+            }
+        }
+
+        function refreshOpenPlanModal() {
+            if (!activePlanMatchId || planModal.hidden) {
+                return;
+            }
+
+            const match = findMatchById(activePlanMatchId);
+            if (match) {
+                renderPlanModal(match);
+            }
+        }
+
+        function renderPlanModal(match) {
+            const matchTools = window.SophiaMatches;
+            planModalTitle.textContent = matchTools.getMatchTitle(match);
+            planModalMeta.textContent = `${matchTools.formatDate(match)} · ${matchTools.formatTime(match)} · ${match.stage}`;
+            planModalBody.innerHTML = renderTribuneMap(match.id);
+        }
+
+        function findMatchById(matchId) {
+            return (window.SophiaBroadcastMatches || []).find((match) => match.id === matchId) || null;
+        }
+
+        function getDateParts(date) {
+            const parts = new Intl.DateTimeFormat('fr-FR', {
+                weekday: 'short',
+                day: '2-digit',
+                month: 'short',
+                timeZone: PARIS_TIME_ZONE
+            }).formatToParts(date);
+
+            return {
+                weekday: getPart(parts, 'weekday').replace('.', ''),
+                day: getPart(parts, 'day'),
+                month: getPart(parts, 'month').replace('.', '')
+            };
+        }
+
+        function getPart(parts, type) {
+            const part = parts.find((item) => item.type === type);
+            return part ? part.value : '';
+        }
+
+        function renderMissingDataState() {
+            document.getElementById('next-match').innerHTML = `
+                <h2>Calendrier indisponible</h2>
+                <p class="next-title">Reviens bientôt</p>
+            `;
+            document.getElementById('france-matches').innerHTML = `
+                <div class="empty-state">Le fichier des matchs n'a pas été chargé.</div>
+            `;
+            document.getElementById('projection-section').hidden = true;
+        }
+
+        function escapeHtml(value) {
+            return String(value || '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+    </script>
+</body>
+</html>
