@@ -54,13 +54,9 @@
             matchNumber: 77,
             broadcast: true,
             franceMatch: true
-        }
-        // Ajoute ici d'autres diffusions plus tard avec broadcast: true.
-    ];
-
-    const franceProjectionMatches = [
+        },
         {
-            id: 'france-projection-paraguay-2026-07-04',
+            id: 'france-paraguay-2026-07-04',
             competition: 'Coupe du monde 2026',
             stage: '8e de finale',
             homeTeam: 'France',
@@ -69,8 +65,13 @@
             endAt: '2026-07-05T00:00:00Z',
             venue: 'Lincoln Financial Field, Philadelphie',
             matchNumber: 89,
-            projectionNote: 'Si victoire contre la Suède'
-        },
+            broadcast: true,
+            franceMatch: true
+        }
+        // Ajoute ici d'autres diffusions plus tard avec broadcast: true.
+    ];
+
+    const franceProjectionMatches = [
         {
             id: 'france-projection-quarter-2026-07-09',
             competition: 'Coupe du monde 2026',
