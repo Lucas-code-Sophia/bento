@@ -398,6 +398,60 @@
             line-height: 1.45;
         }
 
+        .projection-panel {
+            margin-bottom: 1.8rem;
+        }
+
+        .projection-intro {
+            margin: -0.3rem 0 0.85rem;
+            color: var(--text-dark);
+            font-size: 0.86rem;
+            line-height: 1.45;
+        }
+
+        .projection-list {
+            display: grid;
+            gap: 0.65rem;
+        }
+
+        .projection-card {
+            display: grid;
+            grid-template-columns: 4.25rem minmax(0, 1fr);
+            align-items: center;
+            gap: 0.95rem;
+            padding: 0.9rem;
+            border: 2px solid rgba(37, 99, 235, 0.16);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.78);
+            color: var(--text-dark);
+            box-shadow: 0 8px 22px rgba(26, 26, 46, 0.06);
+        }
+
+        .projection-card .date-badge {
+            background: rgba(37, 99, 235, 0.12);
+            color: var(--primary-color);
+            box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+
+        .projection-card .match-title {
+            font-size: 1.28rem;
+        }
+
+        .projection-note {
+            display: inline-flex;
+            width: fit-content;
+            margin-bottom: 0.42rem;
+            padding: 0.2rem 0.48rem;
+            border-radius: 999px;
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary-color);
+            font-size: 0.66rem;
+            font-weight: 700;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
         .tribune-plan {
             overflow-x: auto;
             padding: 0.75rem;
@@ -689,6 +743,15 @@
                 font-size: 1.3rem;
             }
 
+            .projection-card {
+                grid-template-columns: 3.75rem minmax(0, 1fr);
+                gap: 0.75rem;
+            }
+
+            .projection-card .match-title {
+                font-size: 1.15rem;
+            }
+
             .plan-modal {
                 padding: 0.65rem;
                 align-items: stretch;
@@ -769,6 +832,12 @@
         <section aria-labelledby="france-title">
             <h2 class="section-title" id="france-title">Matchs de la France</h2>
             <div class="match-list" id="france-matches"></div>
+        </section>
+
+        <section class="projection-panel" id="projection-section" aria-labelledby="projection-title" hidden>
+            <h2 class="section-title" id="projection-title">Si la France gagne</h2>
+            <p class="projection-intro">Parcours possible des Bleus jusqu'à la finale, avec les horaires en France.</p>
+            <div class="projection-list" id="projection-matches"></div>
         </section>
 
         <section id="other-section" aria-labelledby="other-title" hidden>
@@ -871,11 +940,15 @@
 
             const now = new Date();
             const franceMatches = matchTools.getUpcomingMatches({ now, franceOnly: true });
+            const projectionMatches = matchTools.getFranceProjectionMatches
+                ? matchTools.getFranceProjectionMatches({ now })
+                : [];
             const otherMatches = matchTools
                 .getUpcomingMatches({ now })
                 .filter((match) => !match.franceMatch);
 
             renderNextMatch(matchTools.getNextFranceMatch(now), now);
+            renderFranceProjection(projectionMatches);
             renderMatchList('france-matches', franceMatches, now);
             renderOtherMatches(otherMatches, now);
         }
@@ -895,8 +968,9 @@
             }
 
             const matchTools = window.SophiaMatches;
+            const status = matchTools.getMatchStatus(match, now);
             container.innerHTML = `
-                <h2>${escapeHtml(matchTools.getMatchStatus(match, now))}</h2>
+                <h2>${escapeHtml(status === 'En cours' ? status : 'Prochain match validé')}</h2>
                 <p class="next-title">${escapeHtml(matchTools.getMatchTitle(match))}</p>
                 <div class="next-details">
                     <span class="pill">${escapeHtml(matchTools.formatDate(match))}</span>
@@ -921,6 +995,47 @@
             container.innerHTML = matches
                 .map((match) => renderMatchCard(match, now))
                 .join('');
+        }
+
+        function renderFranceProjection(matches) {
+            const section = document.getElementById('projection-section');
+            const container = document.getElementById('projection-matches');
+
+            if (!matches.length) {
+                section.hidden = true;
+                container.innerHTML = '';
+                return;
+            }
+
+            section.hidden = false;
+            container.innerHTML = matches
+                .map((match) => renderProjectionCard(match))
+                .join('');
+        }
+
+        function renderProjectionCard(match) {
+            const matchTools = window.SophiaMatches;
+            const startDate = matchTools.getMatchStartDate(match);
+            const dateParts = getDateParts(startDate);
+
+            return `
+                <article class="projection-card">
+                    <span class="date-badge" aria-hidden="true">
+                        <span>${escapeHtml(dateParts.weekday)}</span>
+                        <strong>${escapeHtml(dateParts.day)}</strong>
+                        <span>${escapeHtml(dateParts.month)}</span>
+                    </span>
+                    <span class="match-main">
+                        <span class="projection-note">${escapeHtml(match.projectionNote)}</span>
+                        <span class="match-stage">${escapeHtml(match.stage)} · Match ${escapeHtml(match.matchNumber)}</span>
+                        <span class="match-title">${escapeHtml(matchTools.getMatchTitle(match))}</span>
+                        <span class="match-meta">
+                            ${escapeHtml(matchTools.formatTime(match))}<br>
+                            ${escapeHtml(match.venue)}
+                        </span>
+                    </span>
+                </article>
+            `;
         }
 
         function renderOtherMatches(matches, now) {
@@ -1224,6 +1339,7 @@
             document.getElementById('france-matches').innerHTML = `
                 <div class="empty-state">Le fichier des matchs n'a pas été chargé.</div>
             `;
+            document.getElementById('projection-section').hidden = true;
         }
 
         function escapeHtml(value) {
