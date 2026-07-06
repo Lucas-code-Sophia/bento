@@ -67,23 +67,24 @@
             matchNumber: 89,
             broadcast: true,
             franceMatch: true
+        },
+        {
+            id: 'france-morocco-2026-07-09',
+            competition: 'Coupe du monde 2026',
+            stage: 'Quart de finale',
+            homeTeam: 'France',
+            awayTeam: 'Maroc',
+            startAt: '2026-07-09T20:00:00Z',
+            endAt: '2026-07-09T23:00:00Z',
+            venue: 'Gillette Stadium, Boston',
+            matchNumber: 97,
+            broadcast: true,
+            franceMatch: true
         }
         // Ajoute ici d'autres diffusions plus tard avec broadcast: true.
     ];
 
     const franceProjectionMatches = [
-        {
-            id: 'france-projection-quarter-2026-07-09',
-            competition: 'Coupe du monde 2026',
-            stage: 'Quart de finale',
-            homeTeam: 'France',
-            awayTeam: 'Canada ou Maroc',
-            startAt: '2026-07-09T20:00:00Z',
-            endAt: '2026-07-09T23:00:00Z',
-            venue: 'Gillette Stadium, Boston',
-            matchNumber: 97,
-            projectionNote: 'Si victoire en 8e'
-        },
         {
             id: 'france-projection-semi-2026-07-14',
             competition: 'Coupe du monde 2026',
