@@ -80,36 +80,24 @@
             matchNumber: 97,
             broadcast: true,
             franceMatch: true
+        },
+        {
+            id: 'france-england-2026-07-18',
+            competition: 'Coupe du monde 2026',
+            stage: 'Petite finale',
+            homeTeam: 'France',
+            awayTeam: 'Angleterre',
+            startAt: '2026-07-18T21:00:00Z',
+            endAt: '2026-07-19T00:00:00Z',
+            venue: 'Stade de Miami',
+            matchNumber: 103,
+            broadcast: true,
+            franceMatch: true
         }
         // Ajoute ici d'autres diffusions plus tard avec broadcast: true.
     ];
 
-    const franceProjectionMatches = [
-        {
-            id: 'france-projection-semi-2026-07-14',
-            competition: 'Coupe du monde 2026',
-            stage: 'Demi-finale',
-            homeTeam: 'France',
-            awayTeam: 'Adversaire à confirmer',
-            startAt: '2026-07-14T19:00:00Z',
-            endAt: '2026-07-14T22:00:00Z',
-            venue: 'AT&T Stadium, Dallas',
-            matchNumber: 101,
-            projectionNote: 'Si victoire en quart'
-        },
-        {
-            id: 'france-projection-final-2026-07-19',
-            competition: 'Coupe du monde 2026',
-            stage: 'Finale',
-            homeTeam: 'France',
-            awayTeam: 'Adversaire à confirmer',
-            startAt: '2026-07-19T19:00:00Z',
-            endAt: '2026-07-19T22:00:00Z',
-            venue: 'MetLife Stadium, New York/New Jersey',
-            matchNumber: 104,
-            projectionNote: 'Si victoire en demi'
-        }
-    ];
+    const franceProjectionMatches = [];
 
     function toDate(value) {
         return new Date(value);
